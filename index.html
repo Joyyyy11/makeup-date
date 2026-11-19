@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MAKEUP DATE · 香港约妆平台｜找化妆师，看成片再决定</title>
+<meta name="description" content="MAKEUP DATE 妆造预约平台：浏览真实客片瀑布流，按城市、日期、风格、价格筛选化妆师，透明套餐与实时档期，支持上门与到店。">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120S">
+<link rel="stylesheet" href="assets/page.css?v=20261120S">
+</head>
+<body>
+<div id="site-nav"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">HONG KONG · MAKEUP BOOKING</p>
+        <h1 class="mt12">把今天<br>交给<em>对的人</em>画。</h1>
+        <p class="hero-sub">看真实客片、比透明套餐、选合适档期。香港 180+ 位认证化妆师，3 分钟完成预约。</p>
+
+        <!-- 核心预约引擎 -->
+        <div class="hero-search">
+          <div class="search-deck">
+            <div class="search-field">
+              <label>城市 / 商圈</label>
+              <span>香港 · 中环</span>
+            </div>
+            <div class="search-field">
+              <label>预约日期</label>
+              <span>11 月 14 日 · 上午</span>
+            </div>
+            <div class="search-field">
+              <label>妆容大类</label>
+              <span>新娘跟妆</span>
+            </div>
+            <div class="search-field">
+              <label>服务方式</label>
+              <span>到店 / 上门</span>
+            </div>
+            <button class="search-go" onclick="location.href='artists.html?district=%E4%B8%AD%E7%8E%AF&scene=%E6%96%B0%E5%A8%98%E8%B7%9F%E5%A6%86'" aria-label="筛选化妆师">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <a href="artists.html?district=%E4%B8%AD%E7%8E%AF&scene=%E6%96%B0%E5%A8%98%E8%B7%9F%E5%A6%86" class="search-mobile-mini mt12">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
+            <span><strong>开始筛选</strong><br><em>中环 · 新娘跟妆</em></span>
+          </a>
+        </div>
+
+        <div class="hero-trust">
+          <span><b>180+</b> 位认证化妆师</span>
+          <span><b>4.93</b> 平均评分</span>
+          <span><b>12,400+</b> 次成功预约</span>
+          <span><b>100%</b> 原相机客片承诺</span>
+        </div>
+      </div>
+
+      <div class="hero-collage">
+        <figure><img src="images/1600481176431-47ad2ab2745d_500x640_q70.jpg" alt="新娘妆客片" onerror="this.parentNode.style.background='linear-gradient(140deg,#EFEDE8,#E2DED6)';this.style.display='none'"></figure>
+        <figure><img src="images/1617707452165-d7778a7d2936_500x640_q70.jpg" alt="妆容特写" onerror="this.parentNode.style.background='linear-gradient(140deg,#EFEDE8,#E2DED6)';this.style.display='none'"></figure>
+        <figure><img src="images/1536291734366-71f75ba1a9db_500x640_q70.jpg" alt="写真妆客片" onerror="this.parentNode.style.background='linear-gradient(140deg,#EFEDE8,#E2DED6)';this.style.display='none'"></figure>
+        <figure><img src="images/1700089609282-620aebb89b65_500x640_q70.jpg" alt="古风妆客片" onerror="this.parentNode.style.background='linear-gradient(140deg,#EFEDE8,#E2DED6)';this.style.display='none'"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 全部推荐 · 横向卡片流 ============ -->
+<section class="section" style="padding-top:22px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">ALL LOOKS</p>
+        <h2 class="section-title mt8 display">全部推荐</h2>
+        <p class="section-sub">每种风格一张代表作，均为真实订单原相机直出。左右滑动查看更多。</p>
+      </div>
+      <a href="portfolio.html" class="link">查看全部作品
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="rail-wrap">
+      <button class="rail-btn prev" id="railPrev" aria-label="上一张">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="rail" id="masonry"></div>
+      <button class="rail-btn next" id="railNext" aria-label="下一张">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 细分场景 ============ -->
+<section class="section" id="sub-section" style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">BY OCCASION</p>
+        <h2 class="section-title mt8 display">按场景挑选妆容</h2>
+        <p class="section-sub">同一大类里，不同环节的妆面重点也不同。点分类快速跳到对应场景。</p>
+      </div>
+    </div>
+    <div class="chip-row mt16" id="sub-nav" style="flex-wrap:wrap"></div>
+    <div id="sub-styles"></div>
+  </div>
+</section>
+
+<!-- ============ 信任基建与特色专区 ============ -->
+<section class="section soft" style="border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">TRUST & CONVENIENCE</p>
+        <h2 class="section-title mt8 display">先信得过，再下得了单</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <a href="portfolio.html" class="zone reveal">
+        <img src="images/1624091844772-554661d10173_900x600_q70.jpg" alt="无滤镜原相机专区">
+        <span class="tag gold" style="align-self:flex-start">NO FILTER</span>
+        <h3>无滤镜原相机专区</h3>
+        <p>只展示原相机直出与多套代表作对照的化妆师，专门解决「照骗」顾虑。</p>
+        <span class="tag glass" style="align-self:flex-start">86 位化妆师承诺生图对照</span>
+      </a>
+      <a href="artists.html" class="zone reveal">
+        <img src="images/1616926885190-52dbe533292f_600x800_q72.jpg" alt="急单今日可约">
+        <span class="tag coral" style="align-self:flex-start">TODAY</span>
+        <h3>急单 / 今日可约</h3>
+        <p>临时起意的约会、面试或活动，直接匹配今天还有空档的附近化妆师。</p>
+        <span class="tag glass" style="align-self:flex-start">24 位今日可约 · 最快 90 分钟上门</span>
+      </a>
+    </div>
+
+    <div class="grid-4 mt24">
+      <div class="panel" style="padding:18px">
+        <span class="tag gold">◆ 实名认证</span>
+        <h4 class="mt12" style="font-size:15px">身份与资质审核</h4>
+        <p class="small muted mt4">化妆师需提交身份证与作品原创证明，通过后获得认证勋章。</p>
+      </div>
+      <div class="panel" style="padding:18px">
+        <span class="tag">透明套餐</span>
+        <h4 class="mt12" style="font-size:15px">无隐藏加价</h4>
+        <p class="small muted mt4">路费、假睫毛、饰品、造型套数均提前列明，下单即锁价。</p>
+      </div>
+      <div class="panel" style="padding:18px">
+        <span class="tag">实时档期</span>
+        <h4 class="mt12" style="font-size:15px">日历直接看可约</h4>
+        <p class="small muted mt4">可约 / 已满 / 仅剩晚间档一目了然，不必反复私信问档期。</p>
+      </div>
+      <div class="panel" style="padding:18px">
+        <span class="tag">卫生标准</span>
+        <h4 class="mt12" style="font-size:15px">一人一换一次性</h4>
+        <p class="small muted mt4">粉扑与刷具一次性使用或现场消毒，卫生标准可查。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 按地区 ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">BY DISTRICT</p>
+        <h2 class="section-title mt8 display">就在附近</h2>
+        <p class="section-sub">香港 18 区覆盖，支持到店与上门两种服务方式。</p>
+      </div>
+      <a href="location.html" class="link">全部地区筛选
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="grid-4">
+      <a class="zone reveal" style="min-height:180px" href="location.html">
+        <img src="images/1591334395718-08ab300fb84b_700x500_q68.jpg" alt="中环 金钟">
+        <span class="tag glass" style="align-self:flex-start">Central</span>
+        <h3 style="font-size:18px">中环 / 金钟</h3>
+        <p>32 位化妆师可约</p>
+      </a>
+      <a class="zone reveal" style="min-height:180px" href="location.html">
+        <img src="images/1617707452165-d7778a7d2936_700x500_q68.jpg" alt="尖沙咀 佐敦">
+        <span class="tag glass" style="align-self:flex-start">TST</span>
+        <h3 style="font-size:18px">尖沙咀 / 佐敦</h3>
+        <p>28 位化妆师可约</p>
+      </a>
+      <a class="zone reveal" style="min-height:180px" href="location.html">
+        <img src="images/1621390814125-d6eec6a350b9_700x500_q68.jpg" alt="铜锣湾 湾仔">
+        <span class="tag glass" style="align-self:flex-start">CWB</span>
+        <h3 style="font-size:18px">铜锣湾 / 湾仔</h3>
+        <p>24 位化妆师可约</p>
+      </a>
+      <a class="zone reveal" style="min-height:180px" href="location.html">
+        <img src="images/1621390842036-f01b53d9cbfd_700x500_q68.jpg" alt="沙田 大围">
+        <span class="tag glass" style="align-self:flex-start">Shatin</span>
+        <h3 style="font-size:18px">沙田 / 大围</h3>
+        <p>19 位化妆师可约</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 流程 ============ -->
+<section class="section soft" style="border-block:1px solid var(--line)">
+  <div class="wrap">
+    <p class="eyebrow">HOW IT WORKS</p>
+    <h2 class="section-title mt8 display">四步完成一次妆造</h2>
+    <div class="steps mt32">
+      <div class="step"><h4>看客片选风格</h4><p>瀑布流里按风格逛，看到喜欢就收藏，先确定「想要什么」。</p></div>
+      <div class="step"><h4>比套餐和档期</h4><p>进入主页对比套餐含项、耗时与路费规则，日历直接看可约日。</p></div>
+      <div class="step"><h4>提交预约</h4><p>填写人数、地点与需求，系统自动核对档期并给出确认。</p></div>
+      <div class="step"><h4>到店或上门</h4><p>妆前沟通充分，含补妆包与卫生用品，全程无需再议价。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 评价横滑 ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">REAL REVIEWS</p>
+        <h2 class="section-title mt8 display">她们说</h2>
+      </div>
+      <a href="reviews.html" class="link">全部评价
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">新娘全天跟妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「妆面从早上七点到晚上熄灯都没花，连下雨都没脱。真的救了我的大日子。」</p><p class="xs muted mt12">— Kelly W.</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">日常约会妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「45 分钟搞定，朋友完全看不出我化了妆，但照片明显好看很多。」</p><p class="xs muted mt12">— Ah Wing</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">漫展 Cos 妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「假发造型和伤效都超预期，现场被拍了三十几次。」</p><p class="xs muted mt12">— 小鹿</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">写真旅拍</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「海边拍了三小时，Mia 全程帮我补妆，成片几乎不用修。」</p><p class="xs muted mt12">— Christy</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">男士修容</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「男士妆很自然，面试当天状态特别好，不油光。」</p><p class="xs muted mt12">— Marco</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">古风妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「明制盘发太还原了，发饰也能租，省了我一大笔。」</p><p class="xs muted mt12">— 阿岚</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">新娘妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「含免费试妆这点很加分，试妆后微调了眼型，当天完全是我想要的样子。」</p><p class="xs muted mt12">— Yan</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">急单</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「早上九点下单，十一点就上门了，救急神器。」</p><p class="xs muted mt12">— Suki</p></div>
+        <!-- duplicate set for seamless loop -->
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">新娘全天跟妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「妆面从早上七点到晚上熄灯都没花，连下雨都没脱。真的救了我的大日子。」</p><p class="xs muted mt12">— Kelly W.</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">日常约会妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「45 分钟搞定，朋友完全看不出我化了妆，但照片明显好看很多。」</p><p class="xs muted mt12">— Ah Wing</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">漫展 Cos 妆</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「假发造型和伤效都超预期，现场被拍了三十几次。」</p><p class="xs muted mt12">— 小鹿</p></div>
+        <div class="quote-card"><div class="flex between center mb8"><span class="tag">写真旅拍</span><span class="stars">★★★★★</span></div><p style="font-size:13px;color:var(--ink-soft)">「海边拍了三小时，Mia 全程帮我补妆，成片几乎不用修。」</p><p class="xs muted mt12">— Christy</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="panel soft" style="padding:34px 24px;text-align:center;border-radius:26px">
+      <p class="eyebrow">READY WHEN YOU ARE</p>
+      <h2 class="section-title mt8 display">还没想好化什么？</h2>
+      <p class="section-sub" style="margin:10px auto 0">先逛逛风格总览，或者直接告诉我们场合，我们帮你推荐三位合适的化妆师。</p>
+      <div class="flex gap10 mt24" style="justify-content:center;flex-wrap:wrap">
+        <a href="styles.html" class="btn btn-dark">Explore Styles · 浏览风格</a>
+        <a href="booking.html" class="btn btn-light">Book Now · 立即预约</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-sticky"></div>
+
+<script src="images/map.js?v=20261120S"></script>
+<script src="assets/photos.js?v=20261120S"></script>
+<script src="assets/data.js?v=20261120S"></script>
+<script src="assets/layout.js?v=20261120S"></script>
+<script src="assets/hydrate.js?v=20261120S"></script>
+<script src="assets/app.js?v=20261120S"></script>
+</body>
+</html>

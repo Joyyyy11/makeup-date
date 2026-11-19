@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>搜索结果 · MAKEUP DATE</title>
+<meta name="description" content="按关键词、地区、日期与预算搜索香港化妆师，查看匹配度、价格与档期。">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120L">
+<link rel="stylesheet" href="assets/page.css?v=20261120L">
+<style>
+  .search-hero { background: var(--bg-warm); border-bottom: 1px solid var(--line); padding: 26px 0 22px; }
+  .result-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin: 26px 0 18px; }
+  .result-head h1 { font-size: clamp(22px, 3.6vw, 30px); }
+  .kw { color: var(--ink); border-bottom: 2px solid var(--gold); padding-bottom: 1px; }
+  .sug-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .empty-state { text-align: center; padding: 64px 20px; border: 1px dashed var(--line); border-radius: var(--r-lg); }
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<!-- 搜索区 -->
+<section class="search-hero">
+  <div class="wrap">
+    <form class="search-deck" onsubmit="event.preventDefault();doSearch(this);">
+      <label class="search-field" style="flex:2">
+        <span class="muted" style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">关键词</span>
+        <input class="input" name="q" value="新娘 跟妆" placeholder="风格 / 化妆师 / 商圈"
+               style="border:0;padding:0;font-size:14px;font-weight:500;background:transparent;outline:none">
+      </label>
+      <label class="search-field">
+        <span class="muted" style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">地区</span>
+        <select class="select" style="border:0;padding:0;background:transparent;font-size:14px;font-weight:500">
+          <option>全部地区</option><option>中环</option><option>尖沙咀</option><option>沙田</option><option>铜锣湾</option>
+        </select>
+      </label>
+      <label class="search-field">
+        <span class="muted" style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">日期</span>
+        <input class="input" type="date" value="2026-11-14" style="border:0;padding:0;font-size:14px;font-weight:500;background:transparent">
+      </label>
+      <label class="search-field">
+        <span class="muted" style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">预算</span>
+        <select class="select" style="border:0;padding:0;background:transparent;font-size:14px;font-weight:500">
+          <option>不限</option><option>HK$500 以下</option><option>HK$500 – 1,000</option><option>HK$1,000 – 2,000</option><option>HK$2,000 以上</option>
+        </select>
+      </label>
+      <button class="search-go" type="submit" aria-label="搜索">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
+      </button>
+    </form>
+    <div class="search-mobile-mini mt12" onclick="document.querySelector('.search-deck').scrollIntoView({behavior:'smooth'})">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
+      <span><strong>新娘 跟妆</strong><br><em>全部地区 · 11/14 · 不限预算</em></span>
+    </div>
+
+    <div class="sug-chips" id="hotKeywords">
+      <span class="xs muted" style="align-self:center">热门搜索：</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="result-head">
+      <div>
+        <h1>「<span class="kw">新娘 跟妆</span>」的搜索结果</h1>
+        <p class="small muted mt4">共 <b class="bold" data-result-count>0</b> 位化妆师符合条件 · 已按匹配度排序</p>
+      </div>
+      <div class="flex gap8 center" style="gap:8px">
+        <a href="artists.html" class="chip tiny">修改筛选</a>
+        <a href="budget.html" class="chip tiny">按预算</a>
+        <a href="location.html" class="chip tiny">按地区</a>
+      </div>
+    </div>
+
+    <div class="toolbar" data-sort-bar style="margin-top:0;border-top:1px solid var(--line)">
+      <span class="tag">匹配度 <b>高</b></span>
+      <span class="tag">含免费试妆</span>
+      <span class="tag">原相机直出</span>
+      <span class="sort-spacer" style="margin-left:auto"></span>
+    </div>
+
+    <div id="artist-list" style="display:grid;gap:16px;margin-top:18px"></div>
+
+    <div class="empty-state mt32" style="display:none">
+      <p class="muted">没有找到完全匹配的化妆师</p>
+      <a href="artists.html" class="btn btn-dark mt16">浏览全部妆娘</a>
+    </div>
+
+    <!-- 相关风格推荐 -->
+    <div class="panel soft mt48">
+      <h3 style="font-size:16px">没找到满意的？换个方向试试</h3>
+      <div class="grid-4 mt16">
+        <a href="style-daily.html" class="panel" style="padding:16px">
+          <span class="tag">日常约会</span>
+          <p class="small mt8"><b>45 分钟快妆</b></p>
+          <p class="xs muted">HK$420 起</p>
+        </a>
+        <a href="style-guofeng.html" class="panel" style="padding:16px">
+          <span class="tag">古风妆</span>
+          <p class="small mt8"><b>含发饰租赁</b></p>
+          <p class="xs muted">HK$780 起</p>
+        </a>
+        <a href="style-cos.html" class="panel" style="padding:16px">
+          <span class="tag">Cos 角色妆</span>
+          <p class="small mt8"><b>含假发造型</b></p>
+          <p class="xs muted">HK$680 起</p>
+        </a>
+        <a href="artists.html" class="panel" style="padding:16px">
+          <span class="tag">男士修容</span>
+          <p class="small mt8"><b>隐形修眉</b></p>
+          <p class="xs muted">HK$760 起</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-sticky" data-enable="false"></div>
+
+<script src="images/map.js?v=20261120L"></script>
+<script src="assets/photos.js?v=20261120L"></script>
+<script src="assets/data.js?v=20261120L"></script>
+<script src="assets/layout.js?v=20261120L"></script>
+<script src="assets/hydrate.js?v=20261120L"></script>
+<script src="assets/app.js?v=20261120L"></script>
+<script>
+  function doSearch(form) {
+    const q = form.q.value.trim() || '全部';
+    document.querySelector('.result-head h1').innerHTML = `「<span class="kw">${q}</span>」的搜索结果`;
+    const mini = document.querySelector('.search-mobile-mini strong');
+    if (mini) mini.textContent = q;
+    window.scrollTo({ top: 260, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

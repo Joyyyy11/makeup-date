@@ -1,0 +1,19 @@
+/* ---------- Booking rail card ---------- */
+.book-card {
+  border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px;
+  box-shadow: var(--shadow-md); background: #fff;
+}
+.book-card .bprice { display: flex; align-items: baseline; gap: 6px; }
+.book-card .bprice b { font-size: 28px; letter-spacing: -.02em; }
+.book-card .bprice span { font-size: 12.5px; color: var(--muted); }
+.mini-cal { margin-top: 14px; }
+.mini-cal .cal { padding: 12px; border-radius: var(--r-md); }
+.book-card .field { margin-bottom: 12px; }
+.book-card .field > span { font-size: 11px; }
+.book-card .input, .book-card .select { padding: 10px 12px; font-size: 14px; }
+.book-fee { font-size: 12px; color: var(--muted); margin-top: 10px; }
+.book-note { font-size: 11.5px; color: var(--muted); text-align: center; margin-top: 10px; }
+
+/* two-column mini list */
+.kv { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; font-size: 13px; margin-top: 16px; }
+.kv div b { display: block; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }

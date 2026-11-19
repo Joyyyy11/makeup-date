@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>地区筛选 · 地图找妆 · MAKEUP DATE</title>
+<meta name="description" content="按香港 18 区筛选化妆师，支持上门化妆的交通圈显示，直观看到谁离你最近。">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120L">
+<link rel="stylesheet" href="assets/page.css?v=20261120L">
+<style>
+  .loc-count { font-size: 11px; color: var(--muted); }
+  .map-layout { display: grid; gap: 18px; grid-template-columns: 1fr; }
+  @media (min-width: 1000px) { .map-layout { grid-template-columns: 1fr 380px; } }
+  .map-side { display: grid; gap: 12px; align-content: start; max-height: 640px; overflow-y: auto; padding-right: 4px; }
+  .map-side::-webkit-scrollbar { width: 4px; }
+  .map-side::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+  .mcard { display: flex; gap: 12px; border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px; cursor: pointer; transition: border-color .16s, box-shadow .16s; background: #fff; }
+  .mcard:hover, .mcard.on { border-color: var(--ink); box-shadow: var(--shadow-sm); }
+  .mcard img.a { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+  .mcard .thumbs { display: flex; gap: 5px; margin-top: 8px; }
+  .mcard .thumbs img { width: 44px; height: 44px; border-radius: 7px; object-fit: cover; }
+  .district-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+  @media (min-width: 640px) { .district-grid { grid-template-columns: repeat(4,1fr); } }
+  @media (min-width: 1100px) { .district-grid { grid-template-columns: repeat(6,1fr); } }
+  .district {
+    border: 1px solid var(--line); border-radius: var(--r-sm); padding: 12px; text-align: left;
+    background: #fff; transition: all .16s;
+  }
+  .district:hover { border-color: var(--ink-soft); }
+  .district.on { border-color: var(--ink); background: var(--ink); color: #fff; }
+  .district b { display: block; font-size: 13px; }
+  .district span { font-size: 11px; opacity: .62; }
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">首页</a><span>/</span><span>地区筛选</span></div>
+</div>
+
+<header class="section" style="padding-bottom:0">
+  <div class="wrap">
+    <p class="eyebrow">LOCATION</p>
+    <h1 class="section-title mt8 display" style="font-size:clamp(30px,5.6vw,52px)">按地区找妆</h1>
+    <p class="section-sub">先选你在哪，再决定是「上门」还是「到店」。地图上的圈是化妆师可覆盖的交通范围。</p>
+  </div>
+</header>
+
+<!-- 地区选择 -->
+<section class="section" style="padding-top:24px;padding-bottom:16px">
+  <div class="wrap">
+    <div class="flex between center mb16" style="flex-wrap:wrap;gap:10px">
+      <h2 style="font-size:16px">选择地区</h2>
+      <div class="flex gap6">
+        <button class="chip tiny active">上门</button>
+        <button class="chip tiny">到店</button>
+      </div>
+    </div>
+    <div class="district-grid" id="districtGrid"></div>
+    <div class="flex gap10 mt16" style="flex-wrap:wrap">
+      <a class="btn btn-dark btn-sm" id="applyDistrict" href="artists.html">应用筛选</a>
+      <button class="btn btn-light btn-sm" id="clearDistrict">清除</button>
+      <span class="xs muted" style="align-self:center" id="locHint">未选择地区</span>
+    </div>
+  </div>
+</section>
+
+<!-- 地图 + 列表 -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="map-layout">
+      <div class="map-shell" style="min-height:520px">
+        <div class="map-float">
+          <span class="tag dark">中环</span>
+          <span class="small" style="flex:1">5 公里内 · 上门</span>
+          <a href="artists.html" class="btn btn-dark btn-sm">列表</a>
+        </div>
+        <div class="map-ripple" style="left:46%;top:46%"></div>
+        <div class="map-pin sel" style="left:46%;top:46%"><img src="images/1591334395718-08ab300fb84b_80x80_q70.jpg" alt="Yuki">Yuki · HK$1,280</div>
+        <div class="map-pin" style="left:31%;top:33%"><img src="images/1617707452165-d7778a7d2936_80x80_q70.jpg" alt="Gu">Gu · HK$980</div>
+        <div class="map-pin" style="left:62%;top:28%"><img src="images/1621390814125-d6eec6a350b9_80x80_q70.jpg" alt="Mia">Mia · HK$880</div>
+        <div class="map-pin" style="left:70%;top:58%"><img src="images/1621390842036-f01b53d9cbfd_80x80_q70.jpg" alt="Sora">Sora · HK$680</div>
+        <div class="map-pin" style="left:38%;top:66%"><img src="images/1624091844772-554661d10173_80x80_q70.jpg" alt="Ana">Ana · HK$520</div>
+        <div class="map-pin" style="left:80%;top:78%"><img src="images/1573090950281-8dc217c7d257_80x80_q70.jpg" alt="Tina">Tina · HK$1,080</div>
+        <div style="position:absolute;bottom:14px;left:14px;font-size:11px;color:var(--muted)">示意地图 · 非真实地理信息</div>
+      </div>
+
+      <aside class="map-side">
+        <div class="flex between center">
+          <b style="font-size:14px">中环附近 · 5 公里</b>
+          <span class="loc-count">6 位可约</span>
+        </div>
+
+        <a class="mcard on" href="artist-yuki.html">
+          <img class="a" src="images/1615262239746-5c9a2b5321a7_120x120_q70.jpg" alt="Yuki">
+          <div style="min-width:0">
+            <div class="flex between center"><b style="font-size:13.5px">Yuki Lam</b><span class="xs bold">HK$1,280</span></div>
+            <div class="xs muted">中环 · ★ 4.96 · 8 年 · 0.8 km</div>
+            <div class="thumbs">
+              <img src="images/1591334395718-08ab300fb84b_120x120_q66.jpg" alt="作品">
+              <img src="images/1617707452165-d7778a7d2936_120x120_q66.jpg" alt="作品">
+              <img src="images/1621390814125-d6eec6a350b9_120x120_q66.jpg" alt="作品">
+            </div>
+          </div>
+        </a>
+
+        <a class="mcard" href="artist-yuki.html">
+          <img class="a" src="images/1615262239725-0af7065cec55_120x120_q70.jpg" alt="Gu">
+          <div style="min-width:0">
+            <div class="flex between center"><b style="font-size:13.5px">Gu 顾青</b><span class="xs bold">HK$980</span></div>
+            <div class="xs muted">上环 · ★ 4.94 · 6 年 · 1.4 km</div>
+            <div class="thumbs">
+              <img src="images/1621390842036-f01b53d9cbfd_120x120_q66.jpg" alt="作品">
+              <img src="images/1624091844772-554661d10173_120x120_q66.jpg" alt="作品">
+            </div>
+          </div>
+        </a>
+
+        <a class="mcard" href="artist-mia.html">
+          <img class="a" src="images/1675090587347-bc97819676d6_120x120_q70.jpg" alt="Mia">
+          <div style="min-width:0">
+            <div class="flex between center"><b style="font-size:13.5px">Mia 周</b><span class="xs bold">HK$880</span></div>
+            <div class="xs muted">尖沙咀 · ★ 4.92 · 6 年 · 2.6 km</div>
+            <div class="thumbs">
+              <img src="images/1573090950281-8dc217c7d257_120x120_q66.jpg" alt="作品">
+              <img src="images/1591334395718-08ab300fb84b_120x120_q66.jpg" alt="作品">
+              <img src="images/1617707452165-d7778a7d2936_120x120_q66.jpg" alt="作品">
+            </div>
+          </div>
+        </a>
+
+        <a class="mcard" href="artist-yuki.html">
+          <img class="a" src="images/1577596760821-c79c1f7c69bd_120x120_q70.jpg" alt="Sora">
+          <div style="min-width:0">
+            <div class="flex between center"><b style="font-size:13.5px">Sora 阿雪</b><span class="xs bold">HK$680</span></div>
+            <div class="xs muted">铜锣湾 · ★ 4.89 · 5 年 · 3.1 km</div>
+            <div class="thumbs">
+              <img src="images/1621390814125-d6eec6a350b9_120x120_q66.jpg" alt="作品">
+              <img src="images/1621390842036-f01b53d9cbfd_120x120_q66.jpg" alt="作品">
+            </div>
+          </div>
+        </a>
+
+        <a class="mcard" href="artist-yuki.html">
+          <img class="a" src="images/1615262239746-5c9a2b5321a7_120x120_q70.jpg" alt="Ana">
+          <div style="min-width:0">
+            <div class="flex between center"><b style="font-size:13.5px">Ana 李</b><span class="xs bold">HK$520</span></div>
+            <div class="xs muted">太古 · ★ 4.85 · 4 年 · 4.7 km</div>
+            <div class="thumbs">
+              <img src="images/1624091844772-554661d10173_120x120_q66.jpg" alt="作品">
+              <img src="images/1573090950281-8dc217c7d257_120x120_q66.jpg" alt="作品">
+            </div>
+          </div>
+        </a>
+
+        <a class="mcard" href="artist-yuki.html">
+          <img class="a" src="images/1529232356377-57971f020a94_120x120_q70.jpg" alt="Tina">
+          <div style="min-width:0">
+            <div class="flex between center"><b style="font-size:13.5px">Tina 方</b><span class="xs bold">HK$1,080</span></div>
+            <div class="xs muted">北角 · ★ 4.91 · 7 年 · 5.0 km</div>
+            <div class="thumbs">
+              <img src="images/1591334395718-08ab300fb84b_120x120_q66.jpg" alt="作品">
+              <img src="images/1617707452165-d7778a7d2936_120x120_q66.jpg" alt="作品">
+            </div>
+          </div>
+        </a>
+
+        <a href="artists.html" class="btn btn-light btn-block mt8">查看完整列表</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- 路费说明 -->
+<section class="section soft" style="border-top:1px solid var(--line);padding-block:30px">
+  <div class="wrap">
+    <div class="grid-3">
+      <div>
+        <span class="tag">上门</span>
+        <h3 class="mt12" style="font-size:16px">5 公里内多数免费</h3>
+        <p class="small muted mt8">每家规则不同，主页套餐卡会标明免费范围与超出后的每公里价格。</p>
+      </div>
+      <div>
+        <span class="tag">到店</span>
+        <h3 class="mt12" style="font-size:16px">工作室多在地铁站 5 分钟内</h3>
+        <p class="small muted mt8">列表页会显示最近的地铁站与出口，方便估算路程时间。</p>
+      </div>
+      <div>
+        <span class="tag coral">急单</span>
+        <h3 class="mt12" style="font-size:16px">今日可约优先展示</h3>
+        <p class="small muted mt8">筛选「今日可约」可在 90 分钟内安排上门，适用于临时活动。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-sticky" data-enable="false"></div>
+
+<script src="images/map.js?v=20261120L"></script>
+<script src="assets/photos.js?v=20261120L"></script>
+<script src="assets/data.js?v=20261120L"></script>
+<script src="assets/layout.js?v=20261120L"></script>
+<script src="assets/hydrate.js?v=20261120L"></script>
+<script src="assets/app.js?v=20261120L"></script>
+<script>
+  /* 地区页：用真实数据生成地区与人数，并跳转到列表页带筛选 */
+  (function () {
+    const grid = document.getElementById('districtGrid');
+    if (!grid) return;
+
+    const districtsOf = (a) => (a.area || '').split('/').map((s) => s.trim()).filter(Boolean);
+    const count = {};
+    ARTISTS.forEach((a) => districtsOf(a).forEach((d) => (count[d] = (count[d] || 0) + 1)));
+
+    let selected = null;
+
+    grid.innerHTML = Object.entries(count)
+      .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))
+      .map(([d, c]) => `<button class="district" data-d="${d}"><b>${d}</b><span>${c} 位</span></button>`)
+      .join('');
+
+    const hint = document.getElementById('locHint');
+    const applyBtn = document.getElementById('applyDistrict');
+
+    function sync() {
+      grid.querySelectorAll('.district').forEach((b) =>
+        b.classList.toggle('on', b.dataset.d === selected)
+      );
+      if (hint) hint.textContent = selected ? `当前：${selected}` : '未选择地区';
+      if (applyBtn)
+        applyBtn.href = selected
+          ? `artists.html?district=${encodeURIComponent(selected)}`
+          : 'artists.html';
+    }
+
+    grid.addEventListener('click', (e) => {
+      const b = e.target.closest('.district');
+      if (!b) return;
+      selected = selected === b.dataset.d ? null : b.dataset.d;
+      sync();
+    });
+
+    document.getElementById('clearDistrict')?.addEventListener('click', () => {
+      selected = null;
+      sync();
+    });
+
+    sync();
+  })();
+
+  /* 地图侧卡 hover 高亮 */
+  document.querySelectorAll('.map-side .mcard').forEach((c) => {
+    c.addEventListener('mouseenter', () => {
+      document.querySelectorAll('.map-side .mcard').forEach((x) => x.classList.remove('on'));
+      c.classList.add('on');
+    });
+  });
+</script>
+</body>
+</html>

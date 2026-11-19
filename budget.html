@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>预算筛选 · MAKEUP DATE</title>
+<meta name="description" content="按预算筛选香港化妆师：HK$500 以下学生友好价、HK$500–1,000 主流日常写真、HK$1,000 以上新娘跟妆与高端定制。">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120L">
+<link rel="stylesheet" href="assets/page.css?v=20261120L">
+<style>
+  .budget-cards { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .budget-cards { grid-template-columns: repeat(2,1fr); } }
+  @media (min-width: 1100px) { .budget-cards { grid-template-columns: repeat(4,1fr); } }
+  .budget-card {
+    border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px; background: #fff;
+    text-align: left; transition: all .2s var(--ease); cursor: pointer; position: relative;
+  }
+  .budget-card:hover { border-color: var(--ink-soft); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .budget-card.on { border-color: var(--ink); border-width: 1.5px; }
+  .budget-card.on::after {
+    content: "✓"; position: absolute; top: 14px; right: 14px; width: 22px; height: 22px;
+    border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 11px;
+  }
+  .budget-card .amt { font-family: var(--ff-display); font-size: 26px; font-weight: 500; letter-spacing: -.02em; margin: 6px 0 2px; }
+  .budget-card .amt small { font-size: 12px; font-family: var(--ff); color: var(--muted); font-weight: 500; }
+  .budget-card ul { margin-top: 12px; display: grid; gap: 6px; font-size: 12.5px; color: var(--ink-soft); }
+  .budget-card ul li::before { content: "·"; margin-right: 7px; color: var(--gold); font-weight: 700; }
+  .budget-card .cnt { position: absolute; bottom: 14px; right: 16px; font-size: 11px; color: var(--muted); }
+
+  .slider-wrap { max-width: 520px; }
+  input[type=range].big { width: 100%; accent-color: #18181B; height: 4px; }
+  .bubble {
+    display: inline-block; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700;
+    padding: 5px 12px; border-radius: var(--r-pill); margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">首页</a><span>/</span><span>预算筛选</span></div>
+</div>
+
+<header class="section" style="padding-bottom:0">
+  <div class="wrap">
+    <p class="eyebrow">BUDGET</p>
+    <h1 class="section-title mt8 display" style="font-size:clamp(30px,5.6vw,52px)">按预算找妆</h1>
+    <p class="section-sub">价格从 HK$420 到 HK$3,880 不等，差别主要在耗时、造型套数与是否含试妆。先框定预算，再看能买到什么。</p>
+  </div>
+</header>
+
+<!-- 预算卡片 -->
+<section class="section" style="padding-top:24px;padding-bottom:20px">
+  <div class="wrap">
+    <div class="budget-cards" id="budgetCards">
+      <button class="budget-card" data-min="0" data-max="599">
+        <span class="tag">学生友好价</span>
+        <div class="amt">HK$600 <small>以下</small></div>
+        <p class="xs muted">单人快妆 · 到店为主</p>
+        <ul>
+          <li>日常约会 / 通勤妆</li>
+          <li>约 45 分钟</li>
+          <li>多含假睫毛</li>
+        </ul>
+        <span class="cnt" data-cnt="0-599">—</span>
+      </button>
+
+      <button class="budget-card on" data-min="600" data-max="999">
+        <span class="tag">主流选择</span>
+        <div class="amt">HK$600–999 <small></small></div>
+        <p class="xs muted">日常 / 写真 / 轻妆</p>
+        <ul>
+          <li>含基础发型与睫毛</li>
+          <li>3 公里内免路费</li>
+          <li>可选上门</li>
+        </ul>
+        <span class="cnt" data-cnt="600-999">—</span>
+      </button>
+
+      <button class="budget-card" data-min="1000" data-max="1399">
+        <span class="tag">进阶定制</span>
+        <div class="amt">HK$1,000–1,399</div>
+        <p class="xs muted">写真跟妆 / 古风 / 舞台</p>
+        <ul>
+          <li>含补妆与发饰</li>
+          <li>可加购多人出妆</li>
+          <li>多为认证化妆师</li>
+        </ul>
+        <span class="cnt" data-cnt="1000-1399">—</span>
+      </button>
+
+      <button class="budget-card" data-min="1400" data-max="99999">
+        <span class="tag gold">◆ 新娘高定</span>
+        <div class="amt">HK$1,400 <small>以上</small></div>
+        <p class="xs muted">新娘全天 / 团队出妆</p>
+        <ul>
+          <li>含免费试妆</li>
+          <li>12 小时全程跟妆</li>
+          <li>可加购妈妈妆</li>
+        </ul>
+        <span class="cnt" data-cnt="1400-99999">—</span>
+      </button>
+    </div>
+
+    <div class="panel soft mt24" style="padding:20px">
+      <div class="flex between center mb12" style="flex-wrap:wrap;gap:10px">
+        <div>
+          <b style="font-size:14px">自定义上限</b>
+          <p class="xs muted">拖动滑块，右侧列表会即时更新</p>
+        </div>
+        <span class="bubble" id="bubble">上限 HK$1,000</span>
+      </div>
+      <div class="slider-wrap">
+        <input class="big" type="range" id="bigRange" min="400" max="1600" step="50" value="1000">
+        <div class="flex between xs muted mt4"><span>HK$400</span><span>HK$1,600</span></div>
+      </div>
+      <div class="flex gap10 mt16" style="flex-wrap:wrap">
+        <button class="btn btn-dark btn-sm" id="applyBtn">应用筛选</button>
+        <button class="btn btn-light btn-sm" id="clearBtn">清除</button>
+        <span class="xs muted" id="curCond" style="align-self:center">当前条件：HK$500 – 1,000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 结果 -->
+<section class="section" style="padding-top:6px">
+  <div class="wrap">
+    <div class="toolbar" style="margin-top:0">
+      <span class="small muted">符合条件的化妆师：<b class="bold" data-result-count>0</b> 位</span>
+      <a href="artists.html" class="chip tiny">全部妆娘</a>
+      <a href="location.html" class="chip tiny">按地区</a>
+      <span class="chip tiny active" style="margin-left:auto">价格由低到高</span>
+      <span class="chip tiny">评分最高</span>
+    </div>
+    <div id="artist-list" style="display:grid;gap:16px"></div>
+
+    <div class="panel mt32" style="border-radius:var(--r-lg)">
+      <h3 style="font-size:16px">价格都包含什么？</h3>
+      <div class="grid-3 mt16">
+        <div>
+          <span class="tag">基础包含</span>
+          <p class="small muted mt8">底妆、眼妆、唇颊、眉毛、定妆。多数已含单簇假睫毛与基础编发。</p>
+        </div>
+        <div>
+          <span class="tag">常见加购</span>
+          <p class="small muted mt8">妈妈妆 HK$480 起、伴娘妆 HK$380 起、第二套造型 HK$300 起、发饰租赁 HK$80–200。</p>
+        </div>
+        <div>
+          <span class="tag">费用提醒</span>
+          <p class="small muted mt8">超出免费范围的上门路费按距离计算，下单前会在订单摘要中列明，不额外加价。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-sticky" data-enable="false"></div>
+
+<script src="images/map.js?v=20261120L"></script>
+<script src="assets/photos.js?v=20261120L"></script>
+<script src="assets/data.js?v=20261120L"></script>
+<script src="assets/layout.js?v=20261120L"></script>
+<script src="assets/hydrate.js?v=20261120L"></script>
+<script src="assets/app.js?v=20261120L"></script>
+<script>
+  const bigRange = document.getElementById('bigRange');
+  const bubble = document.getElementById('bubble');
+  const curCond = document.getElementById('curCond');
+  const cards = document.querySelectorAll('.budget-card');
+
+  function fmt(n) { return 'HK$' + n.toLocaleString(); }
+
+  // 联动：滑块 / 档位卡片 / 结果列表 / 提示文字 四者保持同步
+  function setBubble(min, max) {
+    const hi = max >= 99999 ? '不限' : fmt(max);
+    bubble.textContent = (min > 0 ? '区间 ' : '上限 ') +
+      (min > 0 ? fmt(min) + ' – ' + hi : hi);
+    if (curCond) {
+      curCond.textContent = '当前条件：' + (min > 0 ? fmt(min) + ' – ' + hi : '不限');
+    }
+  }
+
+  bigRange.addEventListener('input', () => {
+    cards.forEach((c) => c.classList.remove('on'));
+    setBubble(0, +bigRange.value);
+    filterByBudget(0, +bigRange.value);
+  });
+
+  cards.forEach((c) => {
+    c.addEventListener('click', () => {
+      cards.forEach((x) => x.classList.remove('on'));
+      c.classList.add('on');
+      const min = +c.dataset.min;
+      const max = +c.dataset.max;
+      if (max < 99999) bigRange.value = max;
+      setBubble(min, max);
+      filterByBudget(min, max);
+    });
+  });
+
+  function filterByBudget(min, max) {
+    let visible = 0;
+    document.querySelectorAll('#artist-list [data-price]').forEach((card) => {
+      const p = +card.dataset.price;
+      const ok = p >= min && p <= max;
+      card.style.display = ok ? '' : 'none';
+      if (ok) visible++;
+    });
+    const cnt = document.querySelector('[data-result-count]');
+    if (cnt) cnt.textContent = visible;
+    const empty = document.getElementById('budget-empty');
+    if (empty) empty.style.display = visible ? 'none' : 'block';
+  }
+
+  document.getElementById('applyBtn').addEventListener('click', () => {
+    filterByBudget(0, +bigRange.value);
+    setBubble(0, +bigRange.value);
+  });
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    document.querySelectorAll('#artist-list [data-price]').forEach((c) => (c.style.display = ''));
+    document.querySelector('[data-result-count]').textContent =
+      document.querySelectorAll('#artist-list [data-price]').length;
+    cards.forEach((x) => x.classList.remove('on'));
+    bigRange.value = 1600;
+    setBubble(0, 99999);
+    const empty = document.getElementById('budget-empty');
+    if (empty) empty.style.display = 'none';
+  });
+
+  // 用真实数据填充各档人数
+  function fillCounts() {
+    document.querySelectorAll('[data-cnt]').forEach((el) => {
+      const [lo, hi] = el.dataset.cnt.split('-').map(Number);
+      const n = ARTISTS.filter((a) => a.price >= lo && a.price <= hi).length;
+      el.textContent = n + ' 位';
+    });
+  }
+
+  // 初始状态：与默认高亮的「主流选择 HK$600–999」保持一致
+  function initBudget() {
+    const host = document.getElementById('artist-list');
+    if (!host || !host.querySelector('[data-price]')) { return setTimeout(initBudget, 60); }
+    fillCounts();
+    setBubble(600, 999);
+    filterByBudget(600, 999);
+  }
+  initBudget();
+</script>
+</body>
+</html>

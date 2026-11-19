@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>作品集 · MAKEUP DATE</title>
+<meta name="description" content="MAKEUP DATE 作品集：按新娘、日常、写真、Cos、古风等风格分类浏览高清妆造成片，含代表作对照。">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120L">
+<link rel="stylesheet" href="assets/page.css?v=20261120L">
+<style>
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .filter-bar button {
+    padding: 8px 15px; border-radius: var(--r-pill); font-size: 13px; font-weight: 500;
+    border: 1px solid var(--line); background: #fff; transition: all .16s;
+  }
+  .filter-bar button:hover { border-color: var(--ink-soft); }
+  .filter-bar button.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .p-item { cursor: zoom-in; }
+  .p-item .hover-info {
+    position: absolute; inset: auto 0 0 0; padding: 34px 12px 12px;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.72));
+    color: #fff; font-size: 12px; opacity: 0; transition: opacity .25s;
+  }
+  .p-item:hover .hover-info { opacity: 1; }
+  .p-item .hover-info b { display: block; font-size: 13px; }
+  /* lightbox */
+  .lb {
+    position: fixed; inset: 0; z-index: 200; background: rgba(12,12,14,.94);
+    display: none; place-items: center; padding: 24px;
+  }
+  .lb.on { display: grid; }
+  .lb img { max-width: 92vw; max-height: 86vh; border-radius: 12px; object-fit: contain; }
+  .lb-close {
+    position: absolute; top: 18px; right: 18px; width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(255,255,255,.14); color: #fff; display: grid; place-items: center;
+  }
+  .lb-cap { position: absolute; bottom: 22px; left: 0; right: 0; text-align: center; color: #fff; font-size: 13px; }
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">首页</a><span>/</span><span>作品集</span></div>
+</div>
+
+<header class="section" style="padding-bottom:0">
+  <div class="wrap">
+    <p class="eyebrow">PORTFOLIO</p>
+    <h1 class="section-title mt8 display" style="font-size:clamp(30px,5.6vw,52px)">作品集</h1>
+    <p class="section-sub">全部客片来自真实订单的授权使用。点开任意一张可查看大图与出处。</p>
+  </div>
+</header>
+
+<section class="section" style="padding-top:20px">
+  <div class="wrap">
+    <div class="filter-bar" id="portFilter">
+      <button class="on" data-f="all">全部</button>
+      <button data-f="bridal">新娘跟妆</button>
+      <button data-f="daily">日常约会</button>
+      <button data-f="photo">写真 / 旅拍</button>
+      <button data-f="cos">漫展 / Cosplay</button>
+      <button data-f="stage">舞台 / 年会</button>
+      <button data-f="guofeng">古风妆</button>
+      <button data-f="men">男士修容</button>
+    </div>
+
+    <div class="divider" style="margin:34px 0"></div>
+
+    <div class="flex between center mb16" style="flex-wrap:wrap;gap:10px">
+      <span class="small muted">共 <b class="bold" id="portCount">0</b> 张作品</span>
+      <div class="flex gap6 center">
+        <span class="tag outline">最新发布</span>
+        <span class="tag outline">收藏最多</span>
+      </div>
+    </div>
+    <div class="masonry" id="portGrid"></div>
+  </div>
+</section>
+
+<div class="lb" id="lb">
+  <button class="lb-close" id="lbClose" aria-label="关闭">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+  </button>
+  <img id="lbImg" alt="作品大图">
+  <p class="lb-cap" id="lbCap"></p>
+</div>
+
+<div id="site-footer"></div>
+<div id="site-sticky" data-enable="false"></div>
+
+<script src="images/map.js?v=20261120L"></script>
+<script src="assets/photos.js?v=20261120L"></script>
+<script src="assets/data.js?v=20261120L"></script>
+<script src="assets/layout.js?v=20261120L"></script>
+<script src="assets/hydrate.js?v=20261120L"></script>
+<script src="assets/app.js?v=20261120L"></script>
+<script>
+  // 作品集数据（本地定义，避免重复 hydrate#masonry）
+  const PORT = [
+    { id: '1600481176431-47ad2ab2745d', f: 'bridal', t: '仪式妆面特写', a: 'Yuki Lam', h: 1.42 },
+    { id: '1600481176431-47ad2ab2745d', f: 'bridal', t: '仪式妆面特写', a: 'Yuki Lam', h: 1.2 },
+    { id: '1602416429875-abd90ba0c9a3', f: 'bridal', t: '敬酒造型', a: 'Ling 陈', h: 1.5 },
+    { id: '1566812086215-c29c82c4cf93', f: 'daily', t: '清透水光淡妆', a: 'Mia 周', h: 1.32 },    { id: '1567046318559-b29fcd7bf471', f: 'daily', t: '伪素颜日常', a: 'Mia 周', h: 1.18 },    { id: '1655777752731-1e1923444f2a', f: 'daily', t: '自然提气色', a: 'Ana 李', h: 1.44 },    { id: '1657830582172-b1eb2880f497', f: 'daily', t: '淡妆约会', a: 'Ana 李', h: 1.26 },    { id: '1621390798053-3e24c14ea5ce', f: 'daily', t: '裸妆通勤', a: 'Rui 苏', h: 1.30 },    { id: '1621390814125-d6eec6a350b9', f: 'daily', t: '学生淡妆', a: 'Rui 苏', h: 1.38 },    { id: '1505460470885-c72830808c42', f: 'photo', t: '棚拍冷光', a: 'Yuki Lam', h: 1.1 },
+    { id: '1515734674582-29010bb37906', f: 'photo', t: '街拍自然光', a: 'Nana 梁', h: 1.5 },
+    { id: '1529911194209-8578109840df', f: 'photo', t: '旅拍海边', a: 'Mia 周', h: 1.36 },
+    { id: '1727409021722-0a9dd41b8dda', f: 'cos', t: '白蓝长裙造型', a: 'Sora 阿雪', h: 1.46 },
+    { id: '1727409048076-182d2907a59e', f: 'cos', t: '蓝发双马尾', a: 'Sora 阿雪', h: 1.22 },
+    { id: '1727409051606-16c4ae5d57d4', f: 'cos', t: '橘发角色妆', a: 'Sora 阿雪', h: 1.4 },
+    { id: '1727409059001-e7a3e40de86e', f: 'cos', t: '制服系贴钻', a: 'Sora 阿雪', h: 1.12 },
+    { id: '1735720518631-60257e2fde92', f: 'cos', t: '暗黑角装', a: 'Jo 叶', h: 1.34 },
+    { id: '1628734740076-90c5f49e0974', f: 'guofeng', t: '明制端庄', a: 'Gu 顾青', h: 1.48 },
+    { id: '1674199374340-4556a04f13b1', f: 'guofeng', t: '唐制明艳', a: 'Gu 顾青', h: 1.24 },
+    { id: '1700087696919-d56323e23670', f: 'guofeng', t: '现代轻古风', a: 'Yuki Lam', h: 1.38 },
+    { id: '1598318706573-b0ea1463fd6b', f: 'stage', t: '年会主舞台', a: 'Tina 方', h: 1.18 },
+    { id: '1701154695157-c8f9b9afed59', f: 'stage', t: '强光演出妆', a: 'Tina 方', h: 1.46 },
+    { id: '1741675121661-3ace9d68caba', f: 'men', t: '商务出行妆', a: 'Ken 何', h: 1.3 },
+    { id: '1750741268857-7e44510f867d', f: 'men', t: '品牌活动妆', a: 'Ken 何', h: 1.16 },
+    { id: '1591954426313-5e47d525428d', f: 'men', t: '正式场合妆', a: 'Ken 何', h: 1.38 },
+    { id: '1777969382855-378507d33a50', f: 'men', t: '形象照妆', a: 'Ken 何', h: 1.42 },
+    { id: '1615262239746-5c9a2b5321a7', f: 'bridal', t: '中式敬酒', a: 'Ivy 许', h: 1.28 },
+    { id: '1536291734366-71f75ba1a9db', f: 'photo', t: '水光肌写真', a: 'Nana 梁', h: 1.2 },
+  ];
+
+  const grid = document.getElementById('portGrid');
+  const fallback = ph(560, 800);
+
+  function render(list) {
+    grid.innerHTML = list.map((p) => `
+      <article class="m-item look p-item reveal" data-f="${p.f}" data-big="${photo(p.id, 1200, Math.round(1200 * p.h))}">
+        <div class="look-img">
+          <img src="${photo(p.id, 560, Math.round(560 * p.h))}"
+               alt="${p.t} · ${p.a}" loading="lazy"
+               onerror="this.onerror=null;this.src='${fallback}'">
+          <div class="look-badges"><span class="tag glass">${p.t}</span></div>
+          <div class="hover-info"><b>${p.a}</b>点击查看大图</div>
+        </div>
+        <div class="look-meta">
+          <div class="row1"><span class="look-name">${p.a}</span></div>
+          <div class="row2"><span>${p.t}</span><span>${ARTIST_CITY(p.a)}</span></div>
+        </div>
+      </article>`).join('');
+    document.getElementById('portCount').textContent = list.length;
+    reobserve();
+  }
+
+  function ARTIST_CITY(name) {
+    const a = ARTISTS.find((x) => x.name === name);
+    return a ? a.city.replace('香港 · ', '') : '香港';
+  }
+
+  render(PORT);
+
+  // 分类筛选
+  document.getElementById('portFilter').addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    document.querySelectorAll('#portFilter button').forEach((x) => x.classList.remove('on'));
+    b.classList.add('on');
+    const f = b.dataset.f;
+    render(f === 'all' ? PORT : PORT.filter((p) => p.f === f));
+  });
+
+  // Lightbox
+  const lb = document.getElementById('lb');
+  grid.addEventListener('click', (e) => {
+    const card = e.target.closest('.p-item');
+    if (!card) return;
+    const im = card.querySelector('img');
+    // 用渲染时记录的大图地址（已走本地映射），无则退回当前图
+    document.getElementById('lbImg').src = card.dataset.big || im.src;
+    document.getElementById('lbCap').textContent = im.alt;
+    lb.classList.add('on');
+  });
+  document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('on'));
+  lb.addEventListener('click', (e) => { if (e.target === lb) lb.classList.remove('on'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lb.classList.remove('on'); });
+</script>
+</body>
+</html>

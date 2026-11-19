@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>妆娘列表 · 香港约妆化妆师 · MAKEUP DATE</title>
+<meta name="description" content="浏览 MAKEUP DATE 香港认证化妆师：擅长风格、所在地区、价格范围、真实评分与档期，支持地图模式查找。">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120L">
+<link rel="stylesheet" href="assets/page.css?v=20261120L">
+<style>
+  @media (min-width: 1000px) {
+    .artists-layout { display: grid; grid-template-columns: 264px 1fr; gap: 34px; align-items: start; }
+    .filter-rail { position: sticky; top: calc(var(--nav-h) + 20px); }
+  }
+  .filter-rail .fgroup { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .filter-rail .fgroup:last-child { border-bottom: 0; }
+  .filter-rail .fgroup > b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; }
+  .fopt { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; font-size: 13.5px; color: var(--ink-soft); cursor: pointer; }
+  .fopt:hover { color: var(--ink); }
+  .fopt .n { font-size: 11.5px; color: var(--muted); }
+  .range { width: 100%; accent-color: #18181B; }
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">首页</a><span>/</span><span>妆娘列表</span></div>
+</div>
+
+<header class="section" style="padding-bottom:14px">
+  <div class="wrap">
+    <p class="eyebrow">MAKEUP ARTISTS</p>
+    <h1 class="section-title mt8 display" style="font-size:clamp(30px,5.6vw,52px)">妆娘列表</h1>
+    <p class="section-sub">香港 18 区 · 180+ 位认证化妆师。左侧信息 + 右侧代表作，不必点进主页就能判断审美水平。</p>
+
+    <!-- 搜索条 -->
+    <div class="mt24">
+      <div class="search-deck">
+        <div class="search-field"><label>地区</label><span>全部地区</span></div>
+        <div class="search-field"><label>日期</label><span>11 月 14 日</span></div>
+        <div class="search-field"><label>风格</label><span>全部风格</span></div>
+        <div class="search-field"><label>预算</label><span>不限</span></div>
+        <button class="search-go" onclick="location.href='search.html'" aria-label="搜索">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <a href="search.html" class="search-mobile-mini mt12">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
+        <span><strong>筛选妆娘</strong><br><em>地区 · 日期 · 风格 · 预算</em></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="artists-layout">
+      <!-- 左侧固定筛选栏（桌面） -->
+      <aside class="hide-mobile">
+        <div class="filter-rail panel" style="padding:6px 18px" id="filterRail">
+          <div class="fgroup">
+            <b>服务方式</b>
+            <div class="fchips" data-fkey="service">
+              <button class="fchip" data-fval="上门">上门</button>
+              <button class="fchip" data-fval="到店">到店</button>
+            </div>
+          </div>
+          <div class="fgroup">
+            <b>地区</b>
+            <div class="fchips" data-fkey="district" id="districtChips"></div>
+          </div>
+          <div class="fgroup">
+            <b>预算</b>
+            <div class="fchips" data-fkey="price">
+              <button class="fchip" data-fmin="0" data-fmax="599">HK$600 以下</button>
+              <button class="fchip" data-fmin="600" data-fmax="999">HK$600–999</button>
+              <button class="fchip" data-fmin="1000" data-fmax="1399">HK$1,000–1,399</button>
+              <button class="fchip" data-fmin="1400" data-fmax="99999">HK$1,400 以上</button>
+            </div>
+          </div>
+          <div class="fgroup">
+            <b>场景</b>
+            <div class="fchips" data-fkey="scene" id="sceneChips"></div>
+          </div>
+          <div class="fgroup">
+            <b>其他</b>
+            <div class="fchips" data-fkey="other">
+              <button class="fchip" data-fval="verified">◆ 实名认证</button>
+              <button class="fchip" data-fval="today">今日可约</button>
+            </div>
+          </div>
+          <div class="fgroup">
+            <b>价格上限</b>
+            <input class="range" type="range" min="400" max="1600" step="50" value="1600" id="priceRange">
+            <div class="flex between xs muted mt4"><span>HK$400</span><span id="priceOut">不限</span></div>
+          </div>
+          <div class="fgroup">
+            <a href="location.html" class="btn btn-light btn-block btn-sm">在地图上查看</a>
+          </div>
+        </div>
+      </aside>
+
+      <div>
+        <!-- 工具栏 -->
+        <div class="toolbar" style="margin-top:0">
+          <span class="small muted">共 <b class="bold" data-result-count>0</b> 位化妆师</span>
+          <button class="chip tiny only-mobile" id="openFilter">筛选</button>
+          <a href="location.html" class="chip tiny">地图找妆</a>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <button class="chip tiny active" data-sort="relevance">综合推荐</button>
+            <button class="chip tiny" data-sort="rating">评分最高</button>
+            <button class="chip tiny" data-sort="price">价格最低</button>
+          </div>
+        </div>
+
+        <!-- 已选筛选条件 -->
+        <div id="activeFilters" class="active-filters" style="display:none"></div>
+
+        <div id="artist-list" style="display:grid;gap:16px"></div>
+
+        <div class="flex mt32" style="justify-content:center;gap:8px" id="pager"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 地图模式预览 -->
+<section class="section soft" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">MAP VIEW</p>
+        <h2 class="section-title mt8 display">地图找妆</h2>
+        <p class="section-sub">直观看到化妆师位置与可覆盖的交通圈，减少「你会来我这里吗」的沟通成本。</p>
+      </div>
+      <a href="location.html" class="link">打开完整地图 →</a>
+    </div>
+    <div class="map-shell">
+      <div class="map-float">
+        <span class="tag dark">上门</span>
+        <span class="small" style="flex:1">中环 · 5 公里内</span>
+        <a href="location.html" class="btn btn-dark btn-sm">筛选</a>
+      </div>
+      <div class="map-ripple" style="left:34%;top:38%"></div>
+      <div class="map-pin sel" style="left:34%;top:38%"><img src="images/1591334395718-08ab300fb84b_80x80_q70.jpg" alt="Yuki">HK$1,280</div>
+      <div class="map-pin" style="left:52%;top:26%"><img src="images/1617707452165-d7778a7d2936_80x80_q70.jpg" alt="Mia">HK$880</div>
+      <div class="map-pin" style="left:68%;top:48%"><img src="images/1621390814125-d6eec6a350b9_80x80_q70.jpg" alt="Sora">HK$680</div>
+      <div class="map-pin" style="left:44%;top:64%"><img src="images/1621390842036-f01b53d9cbfd_80x80_q70.jpg" alt="Ling">HK$1,580</div>
+      <div class="map-pin" style="left:22%;top:58%"><img src="images/1624091844772-554661d10173_80x80_q70.jpg" alt="Ana">HK$520</div>
+      <div class="map-pin" style="left:76%;top:72%"><img src="images/1573090950281-8dc217c7d257_80x80_q70.jpg" alt="Ken">HK$760</div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-sticky" data-enable="false"></div>
+
+<script src="images/map.js?v=20261120L"></script>
+<script src="assets/photos.js?v=20261120L"></script>
+<script src="assets/data.js?v=20261120L"></script>
+<script src="assets/layout.js?v=20261120L"></script>
+<script src="assets/hydrate.js?v=20261120L"></script>
+<script src="assets/app.js?v=20261120L"></script>
+<script>
+/* ============================================================
+   妆娘列表 · 多维筛选（地区 / 预算 / 场景 / 服务方式 / 认证）
+   所有计数都来自真实数据，不使用预设假数字
+   ============================================================ */
+(function () {
+  const host = document.getElementById('artist-list');
+  const rail = document.getElementById('filterRail');
+  if (!host || !rail) return;
+
+  /* ---------- 状态 ---------- */
+  const state = {
+    service: new Set(),   // 上门 / 到店
+    district: new Set(),  // 地区名
+    price: [],            // 价格区间（单选）
+    scene: new Set(),     // 场景
+    other: new Set(),     // verified / today
+    maxPrice: 1600,
+    sort: 'relevance',
+  };
+
+  /* ---------- 工具 ---------- */
+  const fmt = (n) => 'HK$' + n.toLocaleString();
+  const districtsOf = (a) => (a.area || '').split('/').map((s) => s.trim()).filter(Boolean);
+
+  /* 判断是否「提供上门」：home 字段里含「上门」或「免费上门」 */
+  const offersHome = (a) => /上门/.test(a.home || '');
+  const offersShop = (a) => /到店/.test(a.tags ? a.tags.join('') : '') || /到店/.test(a.home || '');
+  const isToday = (a) => /今日/.test(a.slots || '');
+
+  /* ---------- 动态生成地区与场景选项（带真实计数） ---------- */
+  function buildOptions() {
+    // 地区计数
+    const dCount = {};
+    ARTISTS.forEach((a) => districtsOf(a).forEach((d) => (dCount[d] = (dCount[d] || 0) + 1)));
+    const dHost = document.getElementById('districtChips');
+    if (dHost) {
+      dHost.innerHTML = Object.entries(dCount)
+        .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))
+        .map(
+          ([d, c]) =>
+            `<button class="fchip" data-fval="${d}">${d}<em>${c}</em></button>`
+        )
+        .join('');
+    }
+
+    // 场景计数（按化妆师的 styles）
+    const sCount = {};
+    ARTISTS.forEach((a) => (a.styles || []).forEach((s) => (sCount[s] = (sCount[s] || 0) + 1)));
+    const sHost = document.getElementById('sceneChips');
+    if (sHost) {
+      sHost.innerHTML = Object.entries(sCount)
+        .sort((x, y) => y[1] - x[1])
+        .map(
+          ([s, c]) =>
+            `<button class="fchip" data-fval="${s}">${s}<em>${c}</em></button>`
+        )
+        .join('');
+    }
+  }
+
+  /* ---------- 筛选 ---------- */
+  function matches(a) {
+    // 服务方式
+    if (state.service.size) {
+      const ok = [...state.service].some((s) => (s === '上门' ? offersHome(a) : offersShop(a)));
+      if (!ok) return false;
+    }
+    // 地区
+    if (state.district.size) {
+      const ds = districtsOf(a);
+      if (![...state.district].some((d) => ds.includes(d))) return false;
+    }
+    // 价格区间
+    if (state.price.length) {
+      const [lo, hi] = state.price[0];
+      if (a.price < lo || a.price > hi) return false;
+    }
+    // 价格上限
+    if (state.maxPrice < 1600 && a.price > state.maxPrice) return false;
+    // 场景
+    if (state.scene.size) {
+      if (![...state.scene].some((s) => (a.styles || []).includes(s))) return false;
+    }
+    // 其他
+    if (state.other.has('verified') && !a.verified) return false;
+    if (state.other.has('today') && !isToday(a)) return false;
+    return true;
+  }
+
+  function sortList(list) {
+    const l = [...list];
+    if (state.sort === 'rating') return l.sort((x, y) => y.rating - x.rating);
+    if (state.sort === 'price') return l.sort((x, y) => x.price - y.price);
+    // 综合推荐：认证优先 + 评分
+    return l.sort((x, y) => (y.verified - x.verified) || y.rating - x.rating);
+  }
+
+  /* ---------- 渲染 ---------- */
+  function render() {
+    const list = ARTISTS.filter(matches);
+    const sorted = sortList(list);
+
+    host.innerHTML = sorted.length
+      ? sorted.map(listCard).join('')
+      : `<div class="panel" style="padding:36px;text-align:center">
+           <b style="font-size:15px">没有符合条件的化妆师</b>
+           <p class="small muted mt8">试着放宽价格上限，或减少已选条件。</p>
+           <button class="btn btn-dark btn-sm mt16" id="resetAll">清除全部筛选</button>
+         </div>`;
+
+    document.querySelectorAll('[data-result-count]').forEach((el) => (el.textContent = sorted.length));
+
+    const resetBtn = document.getElementById('resetAll');
+    if (resetBtn) resetBtn.addEventListener('click', resetAll);
+
+    renderActiveChips();
+    renderPager(sorted.length);
+    syncURL();
+  }
+
+  /* 已选条件回显 */
+  function renderActiveChips() {
+    const box = document.getElementById('activeFilters');
+    if (!box) return;
+    const items = [];
+    state.service.forEach((v) => items.push(['service', v, v]));
+    state.district.forEach((v) => items.push(['district', v, v]));
+    state.scene.forEach((v) => items.push(['scene', v, v]));
+    state.other.forEach((v) =>
+      items.push(['other', v, v === 'verified' ? '实名认证' : '今日可约'])
+    );
+    if (state.price.length) {
+      const [lo, hi] = state.price[0];
+      items.push(['price', 'range', hi >= 99999 ? `${fmt(lo)} 以上` : `${fmt(lo)} – ${fmt(hi)}`]);
+    }
+    if (state.maxPrice < 1600) items.push(['maxp', 'maxp', `≤ ${fmt(state.maxPrice)}`]);
+
+    if (!items.length) { box.style.display = 'none'; return; }
+    box.style.display = 'flex';
+    box.innerHTML =
+      `<span class="xs muted" style="align-self:center">已选：</span>` +
+      items
+        .map(([k, v, label], i) => `<button class="af-chip" data-k="${k}" data-v="${v}" data-i="${i}">${label}<em>×</em></button>`)
+        .join('') +
+      `<button class="af-clear" id="afClear">清除全部</button>`;
+  }
+
+  /* 分页（真实分页，每页 6 位） */
+  let page = 1;
+  const PER = 6;
+  function renderPager(total) {
+    const pager = document.getElementById('pager');
+    if (!pager) return;
+    const pages = Math.ceil(total / PER) || 1;
+    if (pages <= 1) { pager.innerHTML = ''; return; }
+    let html = `<button class="btn btn-light btn-sm" data-pg="${Math.max(1, page - 1)}" ${page === 1 ? 'disabled' : ''}>‹</button>`;
+    for (let i = 1; i <= pages; i++) {
+      html += `<button class="btn ${i === page ? 'btn-dark' : 'btn-light'} btn-sm" data-pg="${i}">${i}</button>`;
+    }
+    html += `<button class="btn btn-light btn-sm" data-pg="${Math.min(pages, page + 1)}" ${page === pages ? 'disabled' : ''}>›</button>`;
+    pager.innerHTML = html;
+  }
+
+  /* ---------- 事件 ---------- */
+  // 筛选 chip 点击
+  rail.addEventListener('click', (e) => {
+    const chip = e.target.closest('.fchip');
+    if (!chip) return;
+    const group = chip.closest('[data-fkey]');
+    if (!group) return;
+    const key = group.dataset.fkey;
+
+    if (key === 'price') {
+      const lo = +chip.dataset.fmin, hi = +chip.dataset.fmax;
+      const on = chip.classList.contains('on');
+      group.querySelectorAll('.fchip').forEach((c) => c.classList.remove('on'));
+      state.price = on ? [] : [[lo, hi]];
+      if (!on) chip.classList.add('on');
+      page = 1; render(); return;
+    }
+
+    const val = chip.dataset.fval;
+    const set = state[key];
+    if (!set) return;
+    if (set.has(val)) { set.delete(val); chip.classList.remove('on'); }
+    else { set.add(val); chip.classList.add('on'); }
+    page = 1; render();
+  });
+
+  // 移除已选条件
+  document.getElementById('activeFilters')?.addEventListener('click', (e) => {
+    if (e.target.closest('#afClear')) { resetAll(); return; }
+    const c = e.target.closest('.af-chip');
+    if (!c) return;
+    const k = c.dataset.k, v = c.dataset.v;
+    if (k === 'price') state.price = [];
+    else if (k === 'maxp') { state.maxPrice = 1600; const r = document.getElementById('priceRange'); if (r) r.value = 1600; const o = document.getElementById('priceOut'); if (o) o.textContent = '不限'; }
+    else if (state[k] && state[k].delete) state[k].delete(v);
+    syncChipUI();
+    page = 1; render();
+  });
+
+  // 价格滑块
+  const range = document.getElementById('priceRange');
+  const out = document.getElementById('priceOut');
+  range?.addEventListener('input', () => {
+    state.maxPrice = +range.value;
+    out.textContent = state.maxPrice >= 1600 ? '不限' : fmt(state.maxPrice);
+    page = 1; render();
+  });
+
+  // 排序
+  document.querySelectorAll('[data-sort]').forEach((b) => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('[data-sort]').forEach((x) => x.classList.remove('active'));
+      b.classList.add('active');
+      state.sort = b.dataset.sort;
+      page = 1; render();
+    });
+  });
+
+  // 分页
+  document.getElementById('pager')?.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-pg]');
+    if (!b || b.disabled) return;
+    page = +b.dataset.pg;
+    render();
+    host.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ---------- 工具：UI 与 URL 同步 ---------- */
+  function syncChipUI() {
+    rail.querySelectorAll('[data-fkey]').forEach((g) => {
+      const key = g.dataset.fkey;
+      g.querySelectorAll('.fchip').forEach((c) => {
+        if (key === 'price') {
+          const on = state.price.length && +c.dataset.fmin === state.price[0][0];
+          c.classList.toggle('on', !!on);
+        } else if (state[key]) {
+          c.classList.toggle('on', state[key].has(c.dataset.fval));
+        }
+      });
+    });
+  }
+
+  function syncURL() {
+    const p = new URLSearchParams();
+    const put = (k, arr) => { if (arr.length) p.set(k, arr.join(',')); };
+    put('service', [...state.service]);
+    put('district', [...state.district]);
+    put('scene', [...state.scene]);
+    put('other', [...state.other]);
+    if (state.price.length) p.set('price', state.price[0].join('-'));
+    if (state.maxPrice < 1600) p.set('max', state.maxPrice);
+    if (state.sort !== 'relevance') p.set('sort', state.sort);
+    const qs = p.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+  }
+
+  function resetAll() {
+    state.service.clear(); state.district.clear(); state.scene.clear();
+    state.other.clear(); state.price = []; state.maxPrice = 1600;
+    if (range) range.value = 1600;
+    if (out) out.textContent = '不限';
+    syncChipUI();
+    page = 1; render();
+  }
+
+  /* ---------- 从 URL 恢复筛选（可分享） ---------- */
+  function readURL() {
+    const p = new URLSearchParams(location.search);
+    (p.get('service') || '').split(',').filter(Boolean).forEach((v) => state.service.add(v));
+    (p.get('district') || '').split(',').filter(Boolean).forEach((v) => state.district.add(v));
+    (p.get('scene') || '').split(',').filter(Boolean).forEach((v) => state.scene.add(v));
+    (p.get('other') || '').split(',').filter(Boolean).forEach((v) => state.other.add(v));
+    const pr = p.get('price');
+    if (pr && pr.includes('-')) {
+      const [lo, hi] = pr.split('-').map(Number);
+      state.price = [[lo, hi]];
+    }
+    const mx = p.get('max');
+    if (mx) { state.maxPrice = +mx; if (range) range.value = state.maxPrice; if (out) out.textContent = fmt(state.maxPrice); }
+    const s = p.get('sort');
+    if (s) {
+      state.sort = s;
+      document.querySelectorAll('[data-sort]').forEach((x) => x.classList.toggle('active', x.dataset.sort === s));
+    }
+  }
+
+  /* ---------- 启动 ---------- */
+  buildOptions();
+  readURL();
+  syncChipUI();
+  render();
+
+  /* ---------- 移动端：把筛选栏变成底部抽屉 ---------- */
+  const aside = rail.parentElement;
+  const openBtn = document.getElementById('openFilter');
+  let mask = null;
+
+  function ensureMask() {
+    if (mask) return mask;
+    mask = document.createElement('div');
+    mask.className = 'filter-mask';
+    mask.addEventListener('click', closeDrawer);
+    document.body.appendChild(mask);
+    return mask;
+  }
+
+  function openDrawer() {
+    aside.classList.add('drawer-open');
+    rail.classList.add('as-drawer');
+    ensureMask().classList.add('on');
+    document.body.style.overflow = 'hidden';
+    // 抽屉内的关闭按钮
+    if (!rail.querySelector('.drawer-close')) {
+      const btn = document.createElement('button');
+      btn.className = 'drawer-close';
+      btn.innerHTML = '完成 <em>✓</em>';
+      btn.addEventListener('click', closeDrawer);
+      rail.insertBefore(btn, rail.firstChild);
+    }
+  }
+
+  function closeDrawer() {
+    aside.classList.remove('drawer-open');
+    rail.classList.remove('as-drawer');
+    if (mask) mask.classList.remove('on');
+    document.body.style.overflow = '';
+  }
+
+  openBtn?.addEventListener('click', openDrawer);
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1000) closeDrawer();
+  });
+})();
+</script>
+</body>
+</html>

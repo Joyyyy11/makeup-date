@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>预约确认 · MAKEUP DATE</title>
+<meta name="description" content="预约已提交：查看预约资料摘要、后续联系说明与下一步可做的事。">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120L">
+<link rel="stylesheet" href="assets/page.css?v=20261120L">
+<style>
+  .confirm-wrap { max-width: 720px; margin: 0 auto; }
+  .confirm-card {
+    border: 1px solid var(--line); border-radius: 26px; padding: clamp(24px, 4vw, 40px);
+    background: #fff; box-shadow: var(--shadow-md);
+  }
+  .order-no {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px;
+    letter-spacing: .08em; background: var(--bg-warm); padding: 5px 12px; border-radius: var(--r-pill);
+    display: inline-block;
+  }
+  .next-steps { display: grid; gap: 14px; margin-top: 24px; }
+  @media (min-width: 640px) { .next-steps { grid-template-columns: repeat(3, 1fr); } }
+  .next-steps .n { background: var(--bg-warm); border-radius: var(--r-md); padding: 14px; font-size: 12.5px; color: var(--ink-soft); }
+  .next-steps .n b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); margin-bottom: 5px; }
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<section class="section" style="padding-top:38px">
+  <div class="wrap confirm-wrap">
+    <div class="confirm-card">
+      <div class="success-ring">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4.5 4.5L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div style="text-align:center">
+        <p class="eyebrow">BOOKING RECEIVED</p>
+        <h1 class="section-title mt8 display" style="font-size:clamp(26px,4.6vw,38px)">预约已提交</h1>
+        <p class="section-sub" style="margin:12px auto 0">我们已将你的需求发送给化妆师。你会在 2 小时内收到 WhatsApp 或电话确认，确认档期前不需要付款。</p>
+        <p class="mt16"><span class="order-no">MD-2026-1114-0827</span></p>
+      </div>
+
+      <div class="divider" style="margin:26px 0"></div>
+
+      <!-- 摘要 -->
+      <h2 style="font-size:16px">预约资料摘要</h2>
+      <div class="summary mt12" id="confirmList">
+        <div class="srow"><span class="muted">预约人</span><b>陈小姐</b></div>
+        <div class="srow"><span class="muted">联系电话</span><b>+852 9*** 2188</b></div>
+        <div class="srow"><span class="muted">指定化妆师</span><b>Yuki Lam</b></div>
+        <div class="srow"><span class="muted">服务套餐</span><b>新娘全天跟妆</b></div>
+        <div class="srow"><span class="muted">预约日期</span><b>2026-11-14</b></div>
+        <div class="srow"><span class="muted">妆容风格</span><b>新娘跟妆</b></div>
+        <div class="srow"><span class="muted">服务方式</span><b>到店 · 中环工作室</b></div>
+        <div class="srow tot"><span>预计总价</span><span>HK$3,880</span></div>
+      </div>
+
+      <!-- 后续 -->
+      <div class="next-steps">
+        <div class="n"><b>01 确认档期</b>化妆师会在 2 小时内回应，如已满会推荐替代时段。</div>
+        <div class="n"><b>02 沟通细节</b>可发送参考图、场地照片与服装颜色，方便准备。</div>
+        <div class="n"><b>03 支付定金</b>确认后再付定金（通常 30%），支持 FPS / PayMe。</div>
+      </div>
+
+      <div class="panel soft mt24" style="padding:16px">
+        <div class="flex gap10" style="align-items:flex-start">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 11.5h1V16" stroke-linecap="round"/></svg>
+          <p class="xs muted">如需改期，请在预约日前 72 小时通知，可免费改期一次；48 小时内改期收取 20% 服务费；24 小时内取消不退定金。详见<a href="booking-guide.html" style="text-decoration:underline">预约须知</a>。</p>
+        </div>
+      </div>
+
+      <div class="flex gap10 mt24" style="flex-wrap:wrap">
+        <a href="index.html" class="btn btn-dark" style="flex:1;min-width:150px">Back to Home · 返回首页</a>
+        <a href="artists.html" class="btn btn-light" style="flex:1;min-width:150px">View Artists · 继续浏览</a>
+      </div>
+      <button class="btn btn-light btn-block mt8" onclick="window.print()">打印 / 保存为 PDF</button>
+    </div>
+
+    <p class="xs muted mt24" style="text-align:center">演示站点 · 该预约不会真实发送给化妆师</p>
+
+    <!-- 推荐 -->
+    <div class="sec-head mt48">
+      <div>
+        <p class="eyebrow">WHILE YOU WAIT</p>
+        <h2 class="section-title mt8 display" style="font-size:24px">等待确认时，看看这些</h2>
+      </div>
+    </div>
+    <div class="grid-3">
+      <a href="portfolio.html" class="panel" style="padding:18px">
+        <span class="tag">作品集</span>
+        <h4 class="mt12" style="font-size:15px">保存喜欢的参考图</h4>
+        <p class="small muted mt4">把喜欢的妆面分享给化妆师，沟通效率更高。</p>
+      </a>
+      <a href="booking-guide.html" class="panel" style="padding:18px">
+        <span class="tag">预约须知</span>
+        <h4 class="mt12" style="font-size:15px">了解付款与改期规则</h4>
+        <p class="small muted mt4">定金比例、取消政策与现场注意事项。</p>
+      </a>
+      <a href="reviews.html" class="panel" style="padding:18px">
+        <span class="tag">客户评价</span>
+        <h4 class="mt12" style="font-size:15px">看看别人的真实体验</h4>
+        <p class="small muted mt4">带自拍返图的评价，先了解真实效果。</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-sticky" data-enable="false"></div>
+
+<script src="images/map.js?v=20261120L"></script>
+<script src="assets/photos.js?v=20261120L"></script>
+<script src="assets/data.js?v=20261120L"></script>
+<script src="assets/layout.js?v=20261120L"></script>
+<script src="assets/hydrate.js?v=20261120L"></script>
+<script src="assets/app.js?v=20261120L"></script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>预约表单 · MAKEUP DATE</title>
+<meta name="description" content="填写预约信息：选择化妆师、妆容风格、日期时段与服务方式，即时查看费用摘要后提交预约。">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=20261120L">
+<link rel="stylesheet" href="assets/page.css?v=20261120L">
+<link rel="stylesheet" href="assets/artist-booking.css?v=20261120L">
+<style>
+  .form-layout { display: grid; gap: 24px; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 980px) { .form-layout { grid-template-columns: 1fr 380px; gap: 40px; } .summary-rail { position: sticky; top: calc(var(--nav-h) + 18px); } }
+  .step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff;
+    display: grid; place-items: center; font-size: 12.5px; font-weight: 700; flex-shrink: 0;
+  }
+  .step-head h2 { font-size: 18px; }
+  .step-head p { font-size: 12px; color: var(--muted); }
+  .form-section { padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .form-section:first-of-type { padding-top: 0; }
+  .form-section:last-of-type { border-bottom: 0; }
+  .three-col { display: grid; grid-template-columns: 1fr; gap: 0 14px; }
+  @media (min-width: 640px) { .three-col { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 860px) { .three-col { grid-template-columns: repeat(3, 1fr); } }
+  .hint { font-size: 11.5px; color: var(--muted); margin-top: 5px; }
+  .chk { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: var(--ink-soft); cursor: pointer; padding: 6px 0; }
+  .chk input { margin-top: 3px; accent-color: #18181B; width: 15px; height: 15px; }
+  .artist-mini { display: flex; gap: 12px; align-items: center; background: var(--bg-warm); border-radius: var(--r-md); padding: 12px; }
+  .artist-mini img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; }
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">首页</a><span>/</span><a href="artists.html">妆娘列表</a><span>/</span><span>预约表单</span></div>
+</div>
+
+<header class="section" style="padding-bottom:10px">
+  <div class="wrap">
+    <p class="eyebrow">BOOKING</p>
+    <h1 class="section-title mt8 display" style="font-size:clamp(28px,5.2vw,46px)">预约表单</h1>
+    <p class="section-sub">三分钟填完。提交后化妆师会在 2 小时内确认档期，确认前不收取任何定金。</p>
+  </div>
+</header>
+
+<section class="section" style="padding-top:16px">
+  <div class="wrap">
+    <div class="form-layout">
+      <form id="bookingForm" novalidate>
+        <!-- STEP 1 个人信息 -->
+        <div class="form-section">
+          <div class="step-head">
+            <span class="step-num">1</span>
+            <div>
+              <h2>你的信息</h2>
+              <p>仅用于本次预约沟通，不会用于营销</p>
+            </div>
+          </div>
+
+          <div class="three-col">
+            <label class="field">
+              <span>姓名 <em style="color:var(--coral);font-style:normal">*</em></span>
+              <input class="input" name="name" placeholder="陈小姐" required>
+            </label>
+            <label class="field">
+              <span>联系电话 / WhatsApp <em style="color:var(--coral);font-style:normal">*</em></span>
+              <input class="input" name="phone" type="tel" placeholder="+852 9123 4567" required>
+            </label>
+            <label class="field">
+              <span>微信 / Instagram（选填）</span>
+              <input class="input" name="social" placeholder="@your_handle">
+            </label>
+          </div>
+          <p class="hint">如果你希望化妆师先联系你确认细节，可只在下方备注留下联系方式。</p>
+        </div>
+
+        <!-- STEP 2 选择妆娘 -->
+        <div class="form-section">
+          <div class="step-head">
+            <span class="step-num">2</span>
+            <div>
+              <h2>选择化妆师</h2>
+              <p>已为你默认选中 Yuki Lam，也可改为「不指定」由平台推荐</p>
+            </div>
+          </div>
+
+          <div class="artist-mini mb16">
+            <img src="images/1591334395718-08ab300fb84b_120x120_q70.jpg" alt="Yuki Lam">
+            <div style="flex:1;min-width:0">
+              <b style="font-size:14px">Yuki Lam <span class="tag gold">◆ 认证</span></b>
+              <p class="xs muted">中环 · ★ 4.96 · 起订 HK$1,280</p>
+            </div>
+            <a href="artists.html" class="chip tiny">更换</a>
+          </div>
+
+          <label class="field">
+            <span>指定化妆师</span>
+            <select class="select" name="artist">
+              <option selected>Yuki Lam · 中环 · 新娘跟妆专家</option>
+              <option>Mia 周 · 尖沙咀 · 日常 / 写真</option>
+              <option>Ling 陈 · 沙田 · 新娘全天跟妆</option>
+              <option>Sora 阿雪 · 铜锣湾 · Cos / 舞台</option>
+              <option>Gu 顾青 · 上环 · 古风妆</option>
+              <option>Ken 何 · 观塘 · 男士修容</option>
+              <option>不指定 · 由平台按需求推荐 3 位</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- STEP 3 预约需求 -->
+        <div class="form-section">
+          <div class="step-head">
+            <span class="step-num">3</span>
+            <div>
+              <h2>预约需求</h2>
+              <p>细节越清楚，化妆师准备得越充分</p>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>妆容风格 <em style="color:var(--coral);font-style:normal">*</em></span>
+            <select class="select" name="style" required>
+              <option selected>新娘跟妆</option>
+              <option>清透日常妆 / 伪素颜</option>
+              <option>写真 / 旅拍妆</option>
+              <option>漫展 / Cosplay 妆</option>
+              <option>舞台 / 年会妆</option>
+              <option>古风 / 汉服妆</option>
+              <option>男士修容</option>
+            </select>
+          </label>
+
+          <div class="field">
+            <span>服务套餐 <em style="color:var(--coral);font-style:normal">*</em></span>
+            <div class="opt-grid opt-group">
+              <label class="opt on" data-name="日常约会妆" data-price="680">
+                <input type="radio" name="pkg" checked hidden>
+                <span>日常约会妆<br><small class="muted">HK$680 · 45 分钟</small></span>
+              </label>
+              <label class="opt" data-name="写真 / 旅拍跟妆" data-price="1280">
+                <input type="radio" name="pkg" hidden>
+                <span>写真 / 旅拍跟妆<br><small class="muted">HK$1,280 · 3 小时</small></span>
+              </label>
+              <label class="opt" data-name="新娘全天跟妆" data-price="3880">
+                <input type="radio" name="pkg" hidden>
+                <span>新娘全天跟妆<br><small class="muted">HK$3,880 · 12 小时</small></span>
+              </label>
+              <label class="opt" data-name="定制妆造（待沟通）" data-price="1000">
+                <input type="radio" name="pkg" hidden>
+                <span>定制妆造<br><small class="muted">待沟通 · 起 HK$1,000</small></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="three-col">
+            <label class="field">
+              <span>预约日期 <em style="color:var(--coral);font-style:normal">*</em></span>
+              <input class="input" type="date" name="date" value="2026-11-14" required>
+            </label>
+            <label class="field">
+              <span>时段</span>
+              <select class="select">
+                <option>09:00 – 12:00</option>
+                <option>12:00 – 15:00</option>
+                <option>15:00 – 18:00</option>
+                <option selected>18:00 – 21:00</option>
+                <option>全天（新娘跟妆）</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>人数</span>
+              <select class="select">
+                <option selected>1 人</option>
+                <option>2 人（如伴娘同行）</option>
+                <option>3 人以上（团队出妆）</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="field">
+            <span>服务方式</span>
+            <div class="opt-grid opt-group" style="grid-template-columns:repeat(2,1fr)">
+              <label class="opt on" data-home="0">
+                <input type="radio" name="mode" checked hidden>
+                <span>到店化妆<br><small class="muted">中环工作室 · 免路费</small></span>
+              </label>
+              <label class="opt" data-home="1">
+                <input type="radio" name="mode" hidden>
+                <span>上门化妆<br><small class="muted">5 公里内免费</small></span>
+              </label>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>备注 / 特殊需求</span>
+            <textarea class="textarea" name="notes" placeholder="例如：敏感肌、希望保留单眼皮眼型、需要戴隐形眼镜、场地在户外、希望 6 点前完成……"></textarea>
+          </label>
+
+          <div class="panel soft" style="padding:14px;border-radius:var(--r-sm)">
+            <label class="chk"><input type="checkbox"> 需要额外造型（+HK$300 / 套）</label>
+            <label class="chk"><input type="checkbox"> 需要妈妈妆或伴娘妆（+HK$380 起）</label>
+            <label class="chk"><input type="checkbox"> 需要发饰租赁（+HK$80–200）</label>
+          </div>
+        </div>
+
+        <!-- STEP 4 提交 -->
+        <div class="form-section">
+          <div class="step-head">
+            <span class="step-num">4</span>
+            <div>
+              <h2>确认与提交</h2>
+              <p>提交后不会立即扣款</p>
+            </div>
+          </div>
+          <label class="chk"><input type="checkbox" checked required> 我已阅读并同意 <a href="booking-guide.html" style="text-decoration:underline">预约须知</a>，了解改期与取消规则。</label>
+          <label class="chk"><input type="checkbox"> 我同意化妆师在服务前后拍摄妆面照片（可要求不公开）。</label>
+
+          <button class="btn btn-dark btn-block mt16" type="submit" style="height:52px">
+            Submit Booking · 提交预约
+          </button>
+          <p class="xs muted mt8" style="text-align:center">提交后 2 小时内会有确认通知 · 演示站点不会真实发送</p>
+        </div>
+      </form>
+
+      <!-- 右侧摘要 -->
+      <aside class="summary-rail">
+        <div class="panel" style="padding:20px">
+          <div class="flex between center mb12">
+            <b style="font-size:15px">费用摘要</b>
+            <span class="tag">实时更新</span>
+          </div>
+
+          <div class="summary">
+            <div class="srow"><span class="muted">套餐</span><b id="sumPackage">日常约会妆</b></div>
+            <div class="srow"><span class="muted">基础费用</span><b id="sumBase">HK$680</b></div>
+            <div class="srow"><span class="muted">上门路费</span><b id="sumFee">免费</b></div>
+            <div class="srow"><span class="muted">服务费</span><b>HK$0</b></div>
+            <div class="srow tot"><span>预计总价</span><span id="sumTotal">HK$680</span></div>
+          </div>
+
+          <div class="mt16" style="display:grid;gap:8px">
+            <div class="flex gap10 center small"><span class="tag gold">◆</span><span class="muted">认证化妆师 · 平台担保</span></div>
+            <div class="flex gap10 center small"><span class="tag">✓</span><span class="muted">确认档期后才需付款</span></div>
+            <div class="flex gap10 center small"><span class="tag">✓</span><span class="muted">72 小时前可免费改期一次</span></div>
+          </div>
+
+          <div class="divider"></div>
+          <a href="booking-guide.html" class="small bold" style="text-decoration:underline">查看完整预约须知</a>
+          <p class="xs muted mt12">价格已含妆容、发型与单簇假睫毛。额外造型、妈妈妆与发饰租赁为加购项，会在确认时列明。</p>
+        </div>
+
+        <div class="panel soft mt16" style="padding:16px">
+          <p class="xs muted">本页为演示表单，提交后会跳转至确认页并显示你填写的信息摘要。</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-sticky" data-enable="false"></div>
+
+<script src="images/map.js?v=20261120L"></script>
+<script src="assets/photos.js?v=20261120L"></script>
+<script src="assets/data.js?v=20261120L"></script>
+<script src="assets/layout.js?v=20261120L"></script>
+<script src="assets/hydrate.js?v=20261120L"></script>
+<script src="assets/hydrate-form.js?v=20261120L"></script>
+</body>
+</html>
