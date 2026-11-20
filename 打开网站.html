@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MAKEUP DATE · 页面导航</title>
+<style>
+  :root {
+    --bg-warm: #F7F6F4; --line: #E4E2DE; --ink: #18181B;
+    --muted: #71717A; --gold: #C5A059;
+    --ff: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --ffd: "Cormorant Garamond", "Songti SC", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg-warm); color: var(--ink); font-family: var(--ff);
+    line-height: 1.6; padding: 32px 20px 64px; -webkit-font-smoothing: antialiased;
+  }
+  .shell { max-width: 1080px; margin: 0 auto; }
+  .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+  .mark {
+    width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: var(--gold);
+    display: grid; place-items: center; font-family: var(--ffd); font-size: 22px; font-weight: 600;
+  }
+  .logo-text { font-size: 17px; font-weight: 700; letter-spacing: .04em; }
+  .logo-text small { display: block; font-size: 10px; letter-spacing: .24em; color: var(--muted); font-weight: 600; }
+  .eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  h1 { font-family: var(--ffd); font-size: clamp(30px, 5vw, 46px); font-weight: 500; letter-spacing: -.02em; margin: 8px 0 10px; }
+  .lead { color: var(--muted); font-size: 14.5px; max-width: 62ch; margin: 0; }
+  .hint {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px;
+    margin-top: 22px; font-size: 13px; color: #3F3F46;
+  }
+  .hint b { color: var(--ink); }
+  h2 {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+    margin: 36px 0 12px; font-weight: 700;
+  }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  a.card {
+    display: block; background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    padding: 15px 16px; text-decoration: none; color: inherit;
+    transition: border-color .18s, box-shadow .18s, transform .18s;
+  }
+  a.card:hover { border-color: var(--ink); box-shadow: 0 8px 24px rgba(24,24,27,.09); transform: translateY(-2px); }
+  .num { font-family: var(--ffd); font-size: 20px; color: var(--gold); line-height: 1; display: inline-block; margin-bottom: 6px; }
+  .card b { display: block; font-size: 14.5px; }
+  .card span { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .06em;
+    background: var(--bg-warm); color: #8A6B25; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px;
+  }
+  footer { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="logo">
+    <span class="mark">M</span>
+    <span class="logo-text">MAKEUP DATE<small>妆造预约平台</small></span>
+  </div>
+  <p class="eyebrow">LOCAL SERVER EDITION</p>
+  <h1>18 个页面导航</h1>
+  <p class="lead">当前为模块化版本（样式与脚本在 assets/ 中，图片在 images/ 中），适合修改源码。</p>
+  <div class="hint"><b>推荐方式</b><br>在本目录执行 <b>python3 -m http.server 8899</b>，然后访问 <b>http://localhost:8899/打开网站.html</b>。<br>如需完全离线、双击直接看，请使用 <b>standalone/</b> 目录下的同名文件。</div>
+
+  <h2>核心浏览</h2>
+  <div class="grid">
+    <a class="card" href="index.html"><span class="num">01</span><b>Home 首页 <span class="badge">推荐</span></b><span>Hero 搜索 · 瀑布流 · 双模式</span></a>
+    <a class="card" href="styles.html"><span class="num">03</span><b>风格总览</b><span>6 大妆造风格分类</span></a>
+    <a class="card" href="artists.html"><span class="num">07</span><b>妆娘列表</b><span>左侧筛选 + 横向大卡片</span></a>
+    <a class="card" href="portfolio.html"><span class="num">10</span><b>作品集</b><span>分类筛选 + 大图预览</span></a>
+  </div>
+
+  <h2>风格详情</h2>
+  <div class="grid">
+    <a class="card" href="style-daily.html"><span class="num">04</span><b>清透日常妆</b><span>伪素颜 · 45 分钟</span></a>
+    <a class="card" href="style-guofeng.html"><span class="num">05</span><b>古风妆</b><span>汉服 · 发饰租赁</span></a>
+    <a class="card" href="style-cos.html"><span class="num">06</span><b>Cosplay / 韩系妆</b><span>假发 · 特效 · 水光</span></a>
+  </div>
+
+  <h2>妆娘主页</h2>
+  <div class="grid">
+    <a class="card" href="artist-yuki.html"><span class="num">08</span><b>Yuki Lam <span class="badge">推荐</span></b><span>妆前妆后 · 套餐 · 实时档期</span></a>
+    <a class="card" href="artist-mia.html"><span class="num">09</span><b>Mia 周</b><span>日常 / 写真 · 今日可约</span></a>
+  </div>
+
+  <h2>筛选与搜索</h2>
+  <div class="grid">
+    <a class="card" href="search.html"><span class="num">11</span><b>搜索结果</b><span>关键词 + 多维筛选</span></a>
+    <a class="card" href="location.html"><span class="num">12</span><b>地区筛选</b><span>16 区 + 地图模式</span></a>
+    <a class="card" href="budget.html"><span class="num">13</span><b>预算筛选</b><span>四档预算 + 滑块</span></a>
+  </div>
+
+  <h2>预约流程</h2>
+  <div class="grid">
+    <a class="card" href="booking.html"><span class="num">14</span><b>预约表单</b><span>分区填写 + 实时费用</span></a>
+    <a class="card" href="booking-confirmation.html"><span class="num">15</span><b>预约确认</b><span>资料摘要 + 后续步骤</span></a>
+    <a class="card" href="booking-guide.html"><span class="num">16</span><b>预约须知</b><span>定金 · 改期 · 路费</span></a>
+  </div>
+
+  <h2>关于与社区</h2>
+  <div class="grid">
+    <a class="card" href="about.html"><span class="num">02</span><b>关于我们</b><span>创立背景 · 平台特色</span></a>
+    <a class="card" href="reviews.html"><span class="num">17</span><b>客户评价</b><span>多维评分 + 带图返图</span></a>
+    <a class="card" href="faq.html"><span class="num">18</span><b>常见问题</b><span>六类 FAQ 手风琴</span></a>
+  </div>
+
+  <footer>© 2026 MAKEUP DATE · 演示站点 · 图片来自 Unsplash</footer>
+</div>
+</body>
+</html>
