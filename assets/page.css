@@ -30,6 +30,11 @@
   .hero-collage img { width: 100%; height: 100%; object-fit: cover; }
 }
 
+/* 需要露出完整头脸时：把裁切窗口往上移（放在通用规则之后以生效） */
+@media (min-width: 1080px) {
+  .hero-collage img.up { object-position: center 8%; transform: scale(1.1); transform-origin: center 20%; }
+}
+
 /* ---------- Section header ---------- */
 .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
 .sec-head .link { font-size: 13.5px; font-weight: 600; color: var(--muted); display: inline-flex; gap: 5px; align-items: center; }
@@ -346,4 +351,13 @@
 .lb img,
 .review-imgs img {
   object-position: center 24%;
+}
+
+/* 首页拼图首图：把裁切窗口上移，露出完整头脸（覆盖上面的通用值） */
+@media (min-width: 1080px) {
+  .hero-collage figure:first-child img.up {
+    object-position: center 4%;
+    transform: scale(1.14);
+    transform-origin: center 12%;
+  }
 }
