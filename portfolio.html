@@ -6,8 +6,8 @@
 <title>作品集 · MAKEUP DATE</title>
 <meta name="description" content="MAKEUP DATE 作品集：按新娘、日常、写真、Cos、古风等风格分类浏览高清妆造成片，含代表作对照。">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261121A">
-<link rel="stylesheet" href="assets/page.css?v=20261121A">
+<link rel="stylesheet" href="assets/style.css?v=20261122C">
+<link rel="stylesheet" href="assets/page.css?v=20261122C">
 <style>
   .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; padding: 14px 0; border-bottom: 1px solid var(--line); }
   .filter-bar button {
@@ -90,19 +90,23 @@
 <div id="site-footer"></div>
 <div id="site-sticky" data-enable="false"></div>
 
-<script src="images/map.js?v=20261121A"></script>
-<script src="assets/photos.js?v=20261121A"></script>
-<script src="assets/data.js?v=20261121A"></script>
-<script src="assets/layout.js?v=20261121A"></script>
-<script src="assets/hydrate.js?v=20261121A"></script>
-<script src="assets/app.js?v=20261121A"></script>
+<script src="images/map.js?v=20261122C"></script>
+<script src="assets/photos.js?v=20261122C"></script>
+<script src="assets/data.js?v=20261122C"></script>
+<script src="assets/layout.js?v=20261122C"></script>
+<script src="assets/hydrate.js?v=20261122C"></script>
+<script src="assets/app.js?v=20261122C"></script>
 <script>
   // 作品集数据（本地定义，避免重复 hydrate#masonry）
   // 规则：同一张图不得重复出现；每张图内容必须与文案、风格一致。
   const PORT = [
     { id: '1600481176431-47ad2ab2745d', f: 'bridal', t: '仪式妆面特写', a: 'Yuki Lam', h: 1.42 },
-    { id: '1592574083647-6d7c37d81535', f: 'bridal', t: '敬酒造型', a: 'Ling 陈', h: 1.5 },
-    { id: '1566812086215-c29c82c4cf93', f: 'daily', t: '清透水光淡妆', a: 'Mia 周', h: 1.32 },    { id: '1567046318559-b29fcd7bf471', f: 'daily', t: '伪素颜日常', a: 'Mia 周', h: 1.18 },    { id: '1655777752731-1e1923444f2a', f: 'daily', t: '自然提气色', a: 'Ana 李', h: 1.44 },    { id: '1657830582172-b1eb2880f497', f: 'daily', t: '淡妆约会', a: 'Ana 李', h: 1.26 },    { id: '1621390798053-3e24c14ea5ce', f: 'daily', t: '裸妆通勤', a: 'Rui 苏', h: 1.30 },    { id: '1621390814125-d6eec6a350b9', f: 'daily', t: '学生淡妆', a: 'Rui 苏', h: 1.38 },    { id: '1505460470885-c72830808c42', f: 'photo', t: '棚拍冷光', a: 'Yuki Lam', h: 1.1 },
+    { id: '1592574083647-6d7c37d81535', f: 'stage', t: '舞台妆', a: 'Ling 陈', h: 1.5 },
+    { id: '1567046318559-b29fcd7bf471', f: 'daily', t: '伪素颜日常', a: 'Mia 周', h: 1.18 },
+    { id: '1655777752731-1e1923444f2a', f: 'daily', t: '自然提气色', a: 'Ana 李', h: 1.44 },
+    { id: '1657830582172-b1eb2880f497', f: 'daily', t: '淡妆约会', a: 'Ana 李', h: 1.26 },
+    { id: '1621390798053-3e24c14ea5ce', f: 'daily', t: '裸妆通勤', a: 'Rui 苏', h: 1.30 },
+    { id: '1505460470885-c72830808c42', f: 'photo', t: '棚拍冷光', a: 'Yuki Lam', h: 1.1 },
     { id: '1515734674582-29010bb37906', f: 'photo', t: '街拍自然光', a: 'Nana 梁', h: 1.5 },
     { id: '1690222711689-3301baa6c82a', f: 'photo', t: '旅拍海边', a: 'Mia 周', h: 1.36 },
     { id: '1727409021722-0a9dd41b8dda', f: 'cos', t: '白蓝长裙造型', a: 'Sora 阿雪', h: 1.46 },
@@ -117,7 +121,7 @@
     { id: '1741675121661-3ace9d68caba', f: 'men', t: '商务出行妆', a: 'Ken 何', h: 1.3 },
     { id: '1750741268857-7e44510f867d', f: 'men', t: '品牌活动妆', a: 'Ken 何', h: 1.16 },
     { id: '1777969382855-378507d33a50', f: 'men', t: '形象照妆', a: 'Ken 何', h: 1.42 },
-    { id: '1615262239746-5c9a2b5321a7', f: 'bridal', t: '中式敬酒', a: 'Ivy 许', h: 1.28 },
+    { id: '1693673300110-44baf2276ed6', f: 'bridal', t: '中式婚礼妆面', a: 'Ivy 许', h: 1.28 },
   ];
 
   const grid = document.getElementById('portGrid');
