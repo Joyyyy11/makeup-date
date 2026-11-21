@@ -150,6 +150,9 @@ function reobserve() {
 }
 
 function styleKeyOf(a, i) {
+  // 优先用该作品自己的真实风格，避免「写真/旅拍」标签贴到新娘图上
+  const own = (a.workStyles || [])[i];
+  if (own) return own;
   const s = a.styles[i % a.styles.length];
   if (s.includes('新娘')) return 'bridal';
   if (s.includes('日常')) return 'daily';
@@ -159,6 +162,27 @@ function styleKeyOf(a, i) {
   if (s.includes('男士')) return 'men';
   if (s.includes('古风')) return 'guofeng';
   return 'all';
+}
+
+/* 作品风格 key -> 场景名，与 data.js 的 styles 命名保持一致 */
+const WORK_STYLE_NAME = {
+  bridal: '新娘跟妆',
+  daily: '日常约会',
+  photo: '写真/旅拍',
+  cos: '漫展/Cosplay',
+  stage: '舞台/年会',
+  guofeng: '古风妆',
+  men: '男士修容',
+};
+
+/* 该化妆师作品里真实出现过的场景名集合 */
+function realScenesOf(a) {
+  const set = new Set();
+  (a.works || []).forEach((w, i) => {
+    const k = (a.workStyles || [])[i];
+    if (k && WORK_STYLE_NAME[k]) set.add(WORK_STYLE_NAME[k]);
+  });
+  return [...set];
 }
 
 /* ============================================================
@@ -268,6 +292,17 @@ function isRelevant(a, rawQuery) {
     }
 
     // 常规：命中风格 / 标签 / 名字 / 地区
+    // 风格类命中必须「作品里真的有这类作品」，否则标签与客片对不上
+    const ruleHit = SEARCH_RULES.find(
+      (rule) =>
+        rule.kw.some((k) => normText(k).includes(tk) || tk.includes(normText(k))) &&
+        (rule.styles || []).length
+    );
+    if (ruleHit) {
+      const real = realScenesOf(a);
+      return (ruleHit.styles || []).some((s) => real.includes(s));
+    }
+
     if (fields.styles.includes(tk)) return true;
     if (fields.tags.includes(tk)) return true;
     if (fields.name.includes(tk) || fields.en.includes(tk)) return true;

@@ -193,6 +193,46 @@
   const offersShop = (a) => /到店/.test(a.tags ? a.tags.join('') : '') || /到店/.test(a.home || '');
   const isToday = (a) => /今日/.test(a.slots || '');
 
+  /* ---------- 作品风格（真实来源） ----------
+     场景筛选必须按「代表作图片的实际风格」判断，
+     而不是化妆师自报的 styles 标签，否则会出现
+     选「写真/旅拍」却全是新娘跟妆作品的情况。
+     workStyles 与 works 一一对应；缺省时回落到该作品标题推定的风格。 */
+  const STYLE_NAME = {
+    bridal: '新娘跟妆',
+    daily: '日常约会',
+    photo: '写真/旅拍',
+    cos: '漫展/Cosplay',
+    stage: '舞台/年会',
+    guofeng: '古风妆',
+    men: '男士修容',
+  };
+  function workStyleKeys(a) {
+    const keys = new Set();
+    (a.works || []).forEach((w, i) => {
+      const k = (a.workStyles || [])[i];
+      if (k) keys.add(k);
+    });
+    if (!keys.size) (a.styles || []).forEach((s) => keys.add(s));
+    return [...keys];
+  }
+  /* 化妆师可接的场景 = 会做的妆型 ∩ 作品里真的有的类型。
+     这样标签与图片不会互相矛盾。 */
+  function sceneKeysOf(a) {
+    const keys = workStyleKeys(a).map((k) => STYLE_NAME[k] || k);
+    return [...new Set(keys)];
+  }
+  /* 该化妆师在该场景下真正拿得出手的作品 */
+  function worksForScene(a, sceneName) {
+    const out = [];
+    (a.works || []).forEach((w, i) => {
+      const k = (a.workStyles || [])[i];
+      if (!k) return;
+      if ((STYLE_NAME[k] || k) === sceneName) out.push(i);
+    });
+    return out;
+  }
+
   /* ---------- 动态生成地区与场景选项（带真实计数） ---------- */
   function buildOptions() {
     // 地区计数
@@ -209,9 +249,9 @@
         .join('');
     }
 
-    // 场景计数（按化妆师的 styles）
+    // 场景计数（按作品实际风格，而不是自报 styles）
     const sCount = {};
-    ARTISTS.forEach((a) => (a.styles || []).forEach((s) => (sCount[s] = (sCount[s] || 0) + 1)));
+    ARTISTS.forEach((a) => sceneKeysOf(a).forEach((s) => (sCount[s] = (sCount[s] || 0) + 1)));
     const sHost = document.getElementById('sceneChips');
     if (sHost) {
       sHost.innerHTML = Object.entries(sCount)
@@ -245,7 +285,8 @@
     if (state.maxPrice < 1600 && a.price > state.maxPrice) return false;
     // 场景
     if (state.scene.size) {
-      if (![...state.scene].some((s) => (a.styles || []).includes(s))) return false;
+      const own = sceneKeysOf(a);
+      if (![...state.scene].some((s) => own.includes(s))) return false;
     }
     // 其他
     if (state.other.has('verified') && !a.verified) return false;
@@ -267,7 +308,7 @@
     const sorted = sortList(list);
 
     host.innerHTML = sorted.length
-      ? sorted.map(listCard).join('')
+      ? sorted.map(cardForFilters).join('')
       : `<div class="panel" style="padding:36px;text-align:center">
            <b style="font-size:15px">没有符合条件的化妆师</b>
            <p class="small muted mt8">试着放宽价格上限，或减少已选条件。</p>
@@ -282,6 +323,29 @@
     renderActiveChips();
     renderPager(sorted.length);
     syncURL();
+  }
+
+  /* 按当前已选场景，只把对应风格的作品放进卡片，
+     并在卡片上加一行「作品匹配」说明 */
+  function cardForFilters(a) {
+    const scenes = [...state.scene];
+    if (!scenes.length) return listCard(a);
+
+    // 只保留命中场景的作品；没有则退回原卡片
+    const keep = [];
+    (a.works || []).forEach((w, i) => {
+      const k = (a.workStyles || [])[i];
+      if (k && scenes.includes(STYLE_NAME[k] || k)) keep.push(i);
+    });
+    if (!keep.length) return listCard(a);
+
+    return listCard({
+      ...a,
+      works: keep.map((i) => a.works[i]),
+      workCaptions: keep.map((i) => (a.workCaptions || [])[i]).filter(Boolean),
+      workStyles: keep.map((i) => a.workStyles[i]),
+      _why: keep.map((i) => `作品：${(a.workCaptions || [])[i]?.t || scenes[0]}`).join('|'),
+    });
   }
 
   /* 已选条件回显 */
