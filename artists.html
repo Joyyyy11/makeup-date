@@ -333,7 +333,8 @@
       ? sorted.map(cardForFilters).join('')
       : `<div class="panel" style="padding:36px;text-align:center">
            <b style="font-size:15px">没有符合条件的化妆师</b>
-           <p class="small muted mt8">试着放宽价格上限，或减少已选条件。</p>
+           <p class="small muted mt8">试试去掉一个条件，或看看下面的建议：</p>
+           ${renderEmptyHints()}
            <button class="btn btn-dark btn-sm mt16" id="resetAll">清除全部筛选</button>
          </div>`;
 
@@ -342,14 +343,74 @@
     const resetBtn = document.getElementById('resetAll');
     if (resetBtn) resetBtn.addEventListener('click', resetAll);
 
+    // 空结果里的「去掉某条件」建议
+    host.querySelectorAll('[data-drop]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const k = b.dataset.drop;
+        if (k === 'price') state.price = [];
+        else if (state[k] && state[k].clear) state[k].clear();
+        syncChipUI();
+        page = 1;
+        render();
+      });
+    });
+
     renderActiveChips();
     renderPager(sorted.length);
     syncURL();
     syncQuickUI();
   }
 
-  /* 按当前已选场景，只把对应风格的作品放进卡片，
-     并在卡片上加一行「作品匹配」说明 */
+  /* 空结果时：找出「去掉哪个条件就能出结果」，给出可点击的建议 */
+  function renderEmptyHints() {
+    const groups = [];
+    if (state.scene.size) groups.push({ key: 'scene', label: '场景', values: [...state.scene] });
+    if (state.district.size) groups.push({ key: 'district', label: '地区', values: [...state.district] });
+    if (state.price.length) groups.push({ key: 'price', label: '预算', values: [state.price[0]] });
+    if (state.service.size) groups.push({ key: 'service', label: '服务方式', values: [...state.service] });
+    if (state.other.size) groups.push({ key: 'other', label: '其他', values: [...state.other] });
+
+    const hints = [];
+    groups.forEach((g) => {
+      // 临时移除该组，看看能不能出结果
+      const backup = g.key === 'price' ? state.price : new Set(state[g.key]);
+      const count = ARTISTS.filter((a) => {
+        if (g.key === 'price') state.price = [];
+        else state[g.key].clear();
+        const ok = matches(a);
+        // 还原
+        if (g.key === 'price') state.price = backup;
+        else backup.forEach((v) => state[g.key].add(v));
+        return ok;
+      }).length;
+
+      if (count > 0) {
+        const name = g.key === 'price'
+          ? `HK$${g.values[0][0]}–${g.values[0][1] >= 99999 ? '不限' : g.values[0][1]}`
+          : g.values.join('、');
+        hints.push(
+          `<button class="btn btn-light btn-sm mt8" data-drop="${g.key}">去掉「${g.label}：${name}」→ ${count} 位</button>`
+        );
+      }
+    });
+
+    // 单个场景下有没有人（用于说明「这个场景没人做」）
+    if (!hints.length && state.scene.size) {
+      const anyScene = [...state.scene].filter((s) =>
+        ARTISTS.some((a) => sceneKeysOf(a).includes(s))
+      );
+      if (anyScene.length < state.scene.size) {
+        const missing = [...state.scene].filter((s) => !anyScene.includes(s));
+        return `<p class="small muted mt12">目前没有能接「${missing.join('、')}」的妆娘，换个场景试试。</p>`;
+      }
+    }
+
+    if (!hints.length) {
+      return `<p class="small muted mt12">当前条件没有交集，建议点下方按钮重新开始。</p>`;
+    }
+    return `<div class="flex gap8 mt12" style="flex-wrap:wrap;justify-content:center">${hints.join('')}</div>`;
+  }
+
   function cardForFilters(a) {
     const scenes = [...state.scene];
     if (!scenes.length) return listCard(a);
