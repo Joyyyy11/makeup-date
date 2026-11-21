@@ -365,6 +365,10 @@
       });
     });
 
+    // 动态生成的卡片不在 app.js 的 IntersectionObserver 队列里，
+    // 必须手动补 in，否则会一直停在 opacity:0（看起来像"搜不到结果"）
+    host.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+
     renderActiveChips();
     renderPager(sorted.length);
     syncURL();
