@@ -6,9 +6,9 @@
 <title>预约表单 · MAKEUP DATE</title>
 <meta name="description" content="填写预约信息：选择化妆师、妆容风格、日期时段与服务方式，即时查看费用摘要后提交预约。">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261122F">
-<link rel="stylesheet" href="assets/page.css?v=20261122F">
-<link rel="stylesheet" href="assets/artist-booking.css?v=20261122F">
+<link rel="stylesheet" href="assets/style.css?v=20261123D">
+<link rel="stylesheet" href="assets/page.css?v=20261123D">
+<link rel="stylesheet" href="assets/artist-booking.css?v=20261123D">
 <style>
   .form-layout { display: grid; gap: 24px; grid-template-columns: 1fr; align-items: start; }
   @media (min-width: 980px) { .form-layout { grid-template-columns: 1fr 380px; gap: 40px; } .summary-rail { position: sticky; top: calc(var(--nav-h) + 18px); } }
@@ -84,31 +84,38 @@
             <span class="step-num">2</span>
             <div>
               <h2>选择化妆师</h2>
-              <p>已为你默认选中 Yuki Lam，也可改为「不指定」由平台推荐</p>
+              <p>可从妆娘列表带入，也可在当前页直接更换；不确定就选「不指定」由平台推荐</p>
             </div>
           </div>
 
-          <div class="artist-mini mb16">
-            <img src="images/1591334395718-08ab300fb84b_120x120_q70.jpg" alt="Yuki Lam">
+          <div class="artist-mini mb16" id="artistMini">
+            <img id="artistMiniImg" src="" alt="">
             <div style="flex:1;min-width:0">
-              <b style="font-size:14px">Yuki Lam <span class="tag gold">◆ 认证</span></b>
-              <p class="xs muted">中环 · ★ 4.96 · 起订 HK$1,280</p>
+              <b style="font-size:14px" id="artistMiniName"></b>
+              <p class="xs muted" id="artistMiniMeta"></p>
             </div>
-            <a href="artists.html" class="chip tiny">更换</a>
+            <button type="button" class="chip tiny" id="changeArtistBtn">更换</button>
           </div>
 
           <label class="field">
             <span>指定化妆师</span>
-            <select class="select" name="artist">
-              <option selected>Yuki Lam · 中环 · 新娘跟妆专家</option>
-              <option>Mia 周 · 尖沙咀 · 日常 / 写真</option>
-              <option>Ling 陈 · 沙田 · 新娘全天跟妆</option>
-              <option>Sora 阿雪 · 铜锣湾 · Cos / 舞台</option>
-              <option>Gu 顾青 · 上环 · 古风妆</option>
-              <option>Ken 何 · 观塘 · 男士修容</option>
-              <option>不指定 · 由平台按需求推荐 3 位</option>
-            </select>
+            <select class="select" name="artist" id="artistSelect"></select>
           </label>
+
+          <!-- 换人面板（不离开本页） -->
+          <div class="panel soft mt16" id="artistPicker" style="display:none;padding:16px">
+            <div class="flex between center mb12" style="flex-wrap:wrap;gap:8px">
+              <b style="font-size:13px">换一位化妆师</b>
+              <div class="fchips" data-pk="style" id="pickerStyles"></div>
+            </div>
+            <div class="fchips mb12" data-pk="price" id="pickerPrices">
+              <button type="button" class="fchip" data-lo="0" data-hi="599">HK$600 以下</button>
+              <button type="button" class="fchip" data-lo="600" data-hi="999">HK$600–999</button>
+              <button type="button" class="fchip" data-lo="1000" data-hi="1399">HK$1,000–1,399</button>
+              <button type="button" class="fchip" data-lo="1400" data-hi="99999">HK$1,400 以上</button>
+            </div>
+            <div id="pickerList" style="max-height:320px;overflow:auto"></div>
+          </div>
         </div>
 
         <!-- STEP 3 预约需求 -->
@@ -264,11 +271,138 @@
 <div id="site-footer"></div>
 <div id="site-sticky" data-enable="false"></div>
 
-<script src="images/map.js?v=20261122F"></script>
-<script src="assets/photos.js?v=20261122F"></script>
-<script src="assets/data.js?v=20261122F"></script>
-<script src="assets/layout.js?v=20261122F"></script>
-<script src="assets/hydrate.js?v=20261122F"></script>
-<script src="assets/hydrate-form.js?v=20261122F"></script>
+<script src="images/map.js?v=20261123D"></script>
+<script src="assets/photos.js?v=20261123D"></script>
+<script src="assets/data.js?v=20261123D"></script>
+<script src="assets/layout.js?v=20261123D"></script>
+<script src="assets/hydrate.js?v=20261123D"></script>
+<script src="assets/hydrate-form.js?v=20261123D"></script>
+<script>
+/* ---------- 预约页：化妆师选择（支持 URL 带入 + 当前页更换） ---------- */
+(function () {
+  const NONE = { id: '__none', name: '不指定', note: '由平台按需求推荐 3 位' };
+  const sel = document.getElementById('artistSelect');
+  const mini = document.getElementById('artistMini');
+  const miniImg = document.getElementById('artistMiniImg');
+  const miniName = document.getElementById('artistMiniName');
+  const miniMeta = document.getElementById('artistMiniMeta');
+  const changeBtn = document.getElementById('changeArtistBtn');
+  const picker = document.getElementById('artistPicker');
+  const pickerList = document.getElementById('pickerList');
+  const priceChips = document.getElementById('pickerPrices');
+  const styleChips = document.getElementById('pickerStyles');
+  if (!sel || !mini) return;
+
+  const fmt = (n) => 'HK$' + n.toLocaleString();
+  const byId = (id) => ARTISTS.find((a) => a.id === id || a.name === id);
+  let current = null;
+  const pf = { price: null, style: null };
+
+  /* 下拉选项：URL 可能带入任意一位，所以按数据动态生成 */
+  function buildSelect() {
+    sel.innerHTML =
+      ARTISTS.map(
+        (a) =>
+          `<option value="${a.id}">${a.name} · ${(a.area || '').split('/')[0].trim()} · ${(a.styles || [])[0] || ''}</option>`
+      ).join('') + `<option value="__none">${NONE.name} · ${NONE.note}</option>`;
+  }
+
+  function paint(a) {
+    current = a;
+    if (!a || a.id === '__none') {
+      mini.style.display = 'none';
+      sel.value = '__none';
+      return;
+    }
+    mini.style.display = '';
+    miniImg.src = photo(a.cover, 120, 120);
+    miniImg.alt = a.name;
+    miniName.innerHTML = `${a.name}${a.verified ? ' <span class="tag gold">◆ 认证</span>' : ''}`;
+    miniMeta.textContent = `${(a.area || '').split('/')[0].trim()} · ★ ${a.rating} · 起订 ${fmt(a.price)}`;
+    sel.value = a.id;
+  }
+
+  /* 换人面板 */
+  function renderPicker() {
+    if (!pickerList) return;
+    let list = ARTISTS.filter((a) => a.id !== (current && current.id));
+    if (pf.price) list = list.filter((a) => a.price >= pf.price[0] && a.price <= pf.price[1]);
+    if (pf.style) list = list.filter((a) => (a.styles || []).includes(pf.style));
+    list.sort((x, y) => x.price - y.price);
+
+    pickerList.innerHTML = list.length
+      ? list
+          .map(
+            (a) => `
+        <button type="button" class="pick-row" data-id="${a.id}"
+          style="display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:9px 6px;border:0;background:transparent;border-bottom:1px solid var(--line);cursor:pointer">
+          <img src="${photo(a.cover, 80, 80)}" alt="${a.name}"
+            style="width:38px;height:38px;border-radius:50%;object-fit:cover;flex:none">
+          <span style="flex:1;min-width:0">
+            <b style="font-size:13px">${a.name}</b>
+            <span class="xs muted" style="display:block">${(a.area || '').split('/')[0].trim()} · ★ ${a.rating} · ${(a.styles || []).join(' / ')}</span>
+          </span>
+          <b style="font-size:13px;white-space:nowrap">${fmt(a.price)}</b>
+        </button>`
+          )
+          .join('')
+      : `<p class="small muted" style="padding:14px 6px">没有符合这个条件的化妆师，试试放宽预算或换个风格。</p>`;
+  }
+
+  /* 风格 chips */
+  if (styleChips) {
+    const styles = [...new Set(ARTISTS.flatMap((a) => a.styles || []))];
+    styleChips.innerHTML = styles
+      .map((s) => `<button type="button" class="fchip" data-s="${s}">${s}</button>`)
+      .join('');
+    styleChips.addEventListener('click', (e) => {
+      const b = e.target.closest('.fchip');
+      if (!b) return;
+      const on = b.classList.contains('on');
+      styleChips.querySelectorAll('.fchip').forEach((x) => x.classList.remove('on'));
+      if (!on) b.classList.add('on');
+      pf.style = on ? null : b.dataset.s;
+      renderPicker();
+    });
+  }
+
+  if (priceChips) {
+    priceChips.addEventListener('click', (e) => {
+      const b = e.target.closest('.fchip');
+      if (!b) return;
+      const on = b.classList.contains('on');
+      priceChips.querySelectorAll('.fchip').forEach((x) => x.classList.remove('on'));
+      if (!on) b.classList.add('on');
+      pf.price = on ? null : [+b.dataset.lo, +b.dataset.hi];
+      renderPicker();
+    });
+  }
+
+  changeBtn?.addEventListener('click', () => {
+    const open = picker.style.display !== 'none';
+    picker.style.display = open ? 'none' : '';
+    if (!open) renderPicker();
+  });
+
+  pickerList?.addEventListener('click', (e) => {
+    const b = e.target.closest('.pick-row');
+    if (!b) return;
+    paint(byId(b.dataset.id));
+    picker.style.display = 'none';
+  });
+
+  sel.addEventListener('change', () => {
+    paint(sel.value === '__none' ? NONE : byId(sel.value));
+    if (picker.style.display !== 'none') renderPicker();
+  });
+
+  /* ---------- 初始化：读取 URL 参数 ---------- */
+  buildSelect();
+  const p = new URLSearchParams(location.search);
+  const want = p.get('artist') || p.get('a') || '';
+  const found = byId(decodeURIComponent(want));
+  paint(found || ARTISTS[0]);
+})();
+</script>
 </body>
 </html>

@@ -202,7 +202,7 @@ function listCard(a) {
       </div>
       <div class="flex gap10 mt4" style="flex-wrap:wrap">
         <a href="${href}" class="btn btn-dark btn-sm">查看主页</a>
-        <a href="booking.html" class="btn btn-light btn-sm">预约档期</a>
+        <a href="booking.html?artist=${encodeURIComponent(a.id)}" class="btn btn-light btn-sm">预约档期</a>
         <span class="tag outline">${a.home}</span>
       </div>
     </div>
