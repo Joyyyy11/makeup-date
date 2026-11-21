@@ -208,7 +208,11 @@
 
   /* ---------- 工具 ---------- */
   const fmt = (n) => 'HK$' + n.toLocaleString();
-  const districtsOf = (a) => (a.area || '').split('/').map((s) => s.trim()).filter(Boolean);
+  // 地区筛选按香港 18 区进行；卡片仍显示具体片区
+  const districtsOf = (a) =>
+    typeof districtsOfArtist === 'function'
+      ? districtsOfArtist(a)
+      : (a.area || '').split('/').map((s) => s.trim()).filter(Boolean);
 
   /* 判断是否「提供上门」：home 字段里含「上门」或「免费上门」 */
   const offersHome = (a) => /上门/.test(a.home || '');
@@ -257,13 +261,19 @@
 
   /* ---------- 动态生成地区与场景选项（带真实计数） ---------- */
   function buildOptions() {
-    // 地区计数
+    // 地区计数（按香港 18 区）
     const dCount = {};
     ARTISTS.forEach((a) => districtsOf(a).forEach((d) => (dCount[d] = (dCount[d] || 0) + 1)));
     const dHost = document.getElementById('districtChips');
     if (dHost) {
+      const ORDER = typeof DISTRICTS === 'object' && DISTRICTS ? Object.keys(DISTRICTS) : [];
       dHost.innerHTML = Object.entries(dCount)
-        .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))
+        .sort((x, y) => {
+          const ix = ORDER.indexOf(x[0]);
+          const iy = ORDER.indexOf(y[0]);
+          if (ix !== -1 && iy !== -1) return ix - iy; // 按官方区序
+          return y[1] - x[1] || x[0].localeCompare(y[0]);
+        })
         .map(
           ([d, c]) =>
             `<button class="fchip" data-fval="${d}">${d}<em>${c}</em></button>`
@@ -616,9 +626,15 @@
     if (quickDistrict) {
       const set = new Set();
       ARTISTS.forEach((a) => districtsOf(a).forEach((d) => set.add(d)));
+      const ORDER = typeof DISTRICTS === 'object' && DISTRICTS ? Object.keys(DISTRICTS) : [];
+      const list = [...set].sort((x, y) => {
+        const ix = ORDER.indexOf(x), iy = ORDER.indexOf(y);
+        if (ix !== -1 && iy !== -1) return ix - iy;
+        return x.localeCompare(y);
+      });
       quickDistrict.innerHTML =
         '<option value="">全部地区</option>' +
-        [...set].sort((x, y) => x.localeCompare(y)).map((d) => `<option value="${d}">${d}</option>`).join('');
+        list.map((d) => `<option value="${d}">${d}</option>`).join('');
     }
     if (quickScene) {
       const set = new Set();

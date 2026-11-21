@@ -770,7 +770,229 @@ const ARTISTS = [
     bio: '平价全能型，古风、日常与男士淡妆都能接。适合学生党与第一次尝试妆造的人。',
     slots: '今日可约 · 档期充足',
   },
+  {
+    // 南区 · 香港仔，覆盖南区
+    id: 'cherry',
+    name: 'Cherry 叶',
+    en: 'Cherry Yip',
+    city: '香港 · 香港仔',
+    area: '香港仔 / 鸭脷洲 / 薄扶林',
+    years: 4,
+    gender: '女',
+    rating: 4.86,
+    reviews: 94,
+    price: 720,
+    verified: true,
+    top: false,
+    styles: ['日常约会', '写真/旅拍'],
+    tags: ['南区上门', '学生友好价', '海边旅拍', '原相机直出'],
+    home: '南区免费上门',
+    cover: P.look_100,
+    avatar: P.look_100,
+    works: [P.look_100, P.look_97, P.look_40, P.look_102],
+    workCaptions: [
+      { t: '户外自然光', s: '轻腮红 + 裸唇，底妆不显干' },
+      { t: '城市暮色', s: '侧光打脸，妆面层次更明显' },
+      { t: '街角随拍', s: '灰 T 自然妆，随时可拍' },
+      { t: '晚一点见面', s: '微光唇 + 卧蚕提亮，比白天浓一档' },
+    ],
+    workStyles: ['daily', 'photo', 'photo', 'daily'],
+    bio: '南区本地出妆，擅长海边与户外自然光下的妆面。适合日常约会与轻写真，价格亲民。',
+    slots: '今日可约',
+  },
+  {
+    // 九龙城 · 红磡，覆盖九龙城区
+    id: 'nora',
+    name: 'Nora 麦',
+    en: 'Nora Mak',
+    city: '香港 · 红磡',
+    area: '红磡 / 土瓜湾 / 何文田',
+    years: 5,
+    gender: '女',
+    rating: 4.89,
+    reviews: 118,
+    price: 980,
+    verified: true,
+    top: false,
+    styles: ['新娘跟妆', '日常约会'],
+    tags: ['领证跟拍', '含试妆', '九龙城上门', '小婚礼'],
+    home: '九龙城区免费上门',
+    cover: P.look_105,
+    avatar: P.look_105,
+    works: [P.look_105, P.look_71, P.look_75, P.look_119],
+    workCaptions: [
+      { t: '晨袍妆', s: '妆前打底 + 轻透素颜感，适合接亲前拍摄' },
+      { t: '中式秀禾', s: '红金刺绣配同色系唇，浓而不重' },
+      { t: '头纱造型', s: '金链点缀，侧脸线条清晰' },
+      { t: '通勤妆', s: '底妆匀净 + 淡腮红，5 分钟补妆即可' },
+    ],
+    workStyles: ['bridal', 'bridal', 'bridal', 'daily'],
+    bio: '主做领证跟拍与小型婚礼，九龙城一带上门方便。含一次试妆，妆面清透不厚重。',
+    slots: '今日可约 · 档期充足',
+  },
+  {
+    // 黄大仙 · 钻山，覆盖黄大仙区
+    id: 'ann',
+    name: 'Ann 卢',
+    en: 'Ann Lo',
+    city: '香港 · 钻石山',
+    area: '钻石山 / 黄大仙 / 乐富',
+    years: 3,
+    gender: '女',
+    rating: 4.82,
+    reviews: 67,
+    price: 520,
+    verified: false,
+    top: false,
+    styles: ['日常约会', '男士修容'],
+    tags: ['学生友好价', '可做男士淡妆', '到店可选', '快速妆'],
+    home: '黄大仙区到店 · 区内上门 +HK$40',
+    cover: P.look_36,
+    avatar: P.look_36,
+    works: [P.look_36, P.look_99, P.look_63, P.look_83],
+    workCaptions: [
+      { t: '见家长', s: '眼妆弱化 + 豆沙唇，长辈接受度高' },
+      { t: '日常轻妆', s: '底妆有遮瑕但不厚，眉形与唇色到位' },
+      { t: '坐姿肖像', s: '灰 T 干净感，眉毛是关键' },
+      { t: '日常通勤', s: '深蓝衬衫，只做遮瑕与提亮' },
+    ],
+    workStyles: ['daily', 'daily', 'men', 'men'],
+    bio: '平价快速妆，女妆与男士淡妆都接。黄大仙、钻石山一带上门方便，学生党友好。',
+    slots: '今日可约 · 档期充足',
+  },
+  {
+    // 北区 · 上水，覆盖北区
+    id: 'ivy2',
+    name: 'Iris 文',
+    en: 'Iris Man',
+    city: '香港 · 上水',
+    area: '上水 / 粉岭 / 沙头角',
+    years: 4,
+    gender: '女',
+    rating: 4.84,
+    reviews: 79,
+    price: 620,
+    verified: true,
+    top: false,
+    styles: ['日常约会', '写真/旅拍'],
+    tags: ['北区上门', '学生友好价', '含补妆包', '郊野写真'],
+    home: '北区免费上门',
+    cover: P.look_120,
+    avatar: P.look_120,
+    works: [P.look_120, P.look_35, P.look_10, P.look_38],
+    workCaptions: [
+      { t: '咖啡厅约会', s: '暖调腮红扫在颧骨，气色更柔和' },
+      { t: '绿植旅拍', s: '低饱和腮红，底妆贴合肤色' },
+      { t: '街拍随手拍', s: '眉形清晰 + 淡唇釉，有妆感不刻意' },
+      { t: '户外自然光', s: '白衬衫 + 侧脸，眉眼清晰' },
+    ],
+    workStyles: ['daily', 'photo', 'photo', 'photo'],
+    bio: '北区本地妆娘，主打郊野与绿植场景写真。上水、粉岭一带可免费上门，价格亲民。',
+    slots: '今日可约',
+  },
+  {
+    // 大埔 · 太和，覆盖大埔区
+    id: 'joy',
+    name: 'Joy 詹',
+    en: 'Joy Jim',
+    city: '香港 · 大埔',
+    area: '大埔 / 太和 / 大尾笃',
+    years: 5,
+    gender: '女',
+    rating: 4.87,
+    reviews: 103,
+    price: 880,
+    verified: true,
+    top: false,
+    styles: ['写真/旅拍', '日常约会'],
+    tags: ['郊野旅拍', '大埔上门', '含补妆', '原相机直出'],
+    home: '大埔区免费上门',
+    cover: P.look_111,
+    avatar: P.look_111,
+    works: [P.look_111, P.look_113, P.look_96, P.look_119],
+    workCaptions: [
+      { t: '霓虹街景', s: '底妆压住泛红，妆面干净利落' },
+      { t: '街头夜景', s: '深色背景凸显眼妆与唇色' },
+      { t: '晚餐约会', s: '红唇提亮，唇形更立体' },
+      { t: '通勤妆', s: '底妆匀净 + 淡腮红，5 分钟补妆即可' },
+    ],
+    workStyles: ['photo', 'photo', 'daily', 'daily'],
+    bio: '擅长郊野与夜景写真跟妆，大埔、太和一带上门。随身补妆包，拍摄中途可补一次。',
+    slots: '今日可约 · 本周余 3 档',
+  },
+  {
+    // 离岛 · 东涌，覆盖离岛区
+    id: 'leo',
+    name: 'Leo 石',
+    en: 'Leo Shek',
+    city: '香港 · 东涌',
+    area: '东涌 / 大屿山 / 愉景湾',
+    years: 4,
+    gender: '男',
+    rating: 4.85,
+    reviews: 86,
+    price: 1080,
+    verified: true,
+    top: false,
+    styles: ['舞台/年会', '男士修容'],
+    tags: ['离岛上门', '年会主持', '控油底妆', '度假区拍摄'],
+    home: '离岛区上门（东涌/大屿山）',
+    cover: P.look_81,
+    avatar: P.look_81,
+    works: [P.look_81, P.look_90, P.look_41, P.look_62],
+    workCaptions: [
+      { t: '品牌活动', s: '深西装 + 红领带，镜头前更精神' },
+      { t: '年会主持', s: '冷调眼妆 + 裸唇，镜头特写友好' },
+      { t: '中式造型', s: '金线外套，配合饰更稳妥' },
+      { t: '户外形象照', s: '自然光下只补眉尾与眼下' },
+    ],
+    workStyles: ['stage', 'stage', 'men', 'men'],
+    bio: '离岛区出妆，主做度假区年会、主持与男士形象。东涌、大屿山一带可上门。',
+    slots: '今日可约 · 档期充足',
+  },
 ];
+
+/* ============================================================
+   香港 18 区 ⇄ 片区 映射
+   筛选按「区」进行；卡片仍显示具体片区，便于用户判断距离。
+   ============================================================ */
+const DISTRICTS = {
+  '中西区': ['中环', '金钟', '上环', '西营盘', '半山', '西半山', '坚尼地城'],
+  '湾仔区': ['湾仔', '铜锣湾', '跑马地', '天后'],
+  '东区': ['北角', '炮台山', '太古', '鰂魚涌', '西湾河', '筲箕湾', '柴湾'],
+  '南区': ['香港仔', '鸭脷洲', '赤柱', '薄扶林'],
+  '油尖旺区': ['尖沙咀', '旺角', '佐敦', '油麻地', '太子', '大角咀'],
+  '深水埗区': ['深水埗', '长沙湾', '荔枝角', '美孚', '石硖尾'],
+  '九龙城区': ['红磡', '土瓜湾', '九龙城', '何文田'],
+  '黄大仙区': ['黄大仙', '钻石山', '慈云山', '乐富'],
+  '观塘区': ['观塘', '九龙湾', '牛头角', '蓝田', '油塘'],
+  '葵青区': ['葵涌', '青衣', '葵芳'],
+  '荃湾区': ['荃湾', '深井', '汀九'],
+  '屯门区': ['屯门', '兆康'],
+  '元朗区': ['元朗', '天水围', '锦田'],
+  '北区': ['上水', '粉岭', '沙头角'],
+  '大埔区': ['大埔', '太和', '大尾笃'],
+  '沙田区': ['沙田', '大围', '火炭', '马鞍山'],
+  '西贡区': ['将军澳', '坑口', '宝琳', '西贡市'],
+  '离岛区': ['东涌', '大屿山', '愉景湾', '长洲', '南丫岛'],
+};
+
+/* 片区 -> 所属区（反向索引） */
+const AREA_TO_DISTRICT = {};
+Object.entries(DISTRICTS).forEach(([district, areas]) => {
+  areas.forEach((area) => { AREA_TO_DISTRICT[area] = district; });
+});
+
+/* 某位化妆师覆盖的区（去重） */
+function districtsOfArtist(a) {
+  const out = new Set();
+  (a.area || '').split('/').map((s) => s.trim()).filter(Boolean).forEach((area) => {
+    const d = AREA_TO_DISTRICT[area];
+    if (d) out.add(d);
+    else out.add(area); // 未在映射表中的片区，原样保留
+  });
+  return [...out];
+}
 
 /* 细分风格：按大类拆成具体场景，每类 7–8 张，用于首页「按场景挑选」 */
 const SUB_STYLES = [
