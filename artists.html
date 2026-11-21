@@ -388,7 +388,12 @@
     }
     if (state.maxPrice < 1600) items.push(['maxp', 'maxp', `≤ ${fmt(state.maxPrice)}`]);
 
-    if (!items.length) { box.style.display = 'none'; return; }
+    // 没有任何条件时：必须清空 DOM，否则旧的「已选」标签会残留在页面里
+    if (!items.length) {
+      box.style.display = 'none';
+      box.innerHTML = '';
+      return;
+    }
     box.style.display = 'flex';
     box.innerHTML =
       `<span class="xs muted" style="align-self:center">已选：</span>` +
