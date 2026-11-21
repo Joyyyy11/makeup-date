@@ -346,10 +346,10 @@ const ARTISTS = [
     home: '铜锣湾到店 · 3 公里内上门 +HK$80',
     cover: P.look_85,
     avatar: P.look_85,
-    works: [P.look_85, P.look_127],
+    works: [P.look_85, P.look_58],
     workCaptions: [
       { t: '蓝发女角', s: '蓝发 + 华丽头饰，浓妆也要分层次' },
-      { t: '紫调眼影', s: '冷紫眼影，二次元感更强' },
+      { t: '双人造型', s: '白红蓝配色，头饰与妆面统一' },
     ],
     workStyles: ['cos', 'cos'],
     bio: '漫展与角色扮演妆 6 年，熟悉港九各场馆的灯光与拍摄角度。可现场改妆、补妆，含假发定型与特效伤效。',
