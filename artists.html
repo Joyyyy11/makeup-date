@@ -42,11 +42,11 @@
         <div class="search-field"><label>日期</label><span>11 月 14 日</span></div>
         <div class="search-field"><label>风格</label><span>全部风格</span></div>
         <div class="search-field"><label>预算</label><span>不限</span></div>
-        <button class="search-go" onclick="location.href='search.html'" aria-label="搜索">
+        <button class="search-go" id="goSearch" aria-label="搜索">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
         </button>
       </div>
-      <a href="search.html" class="search-mobile-mini mt12">
+      <a href="search.html" class="search-mobile-mini mt12" id="goSearchMini">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
         <span><strong>筛选妆娘</strong><br><em>地区 · 日期 · 风格 · 预算</em></span>
       </a>
@@ -562,6 +562,46 @@
   openBtn?.addEventListener('click', openDrawer);
   window.addEventListener('resize', () => {
     if (window.innerWidth > 1000) closeDrawer();
+  });
+
+  /* ---------- 搜索跳转：把当前筛选条件转成关键词 ----------
+     进入搜索页时不能再沿用写死的「新娘 跟妆」，
+     而是用用户在这一页挑的场景 / 地区 / 服务方式 / 价格生成 q。 */
+  function searchQuery() {
+    const parts = [];
+    // 场景优先：直接就是关键词（如「写真/旅拍」）
+    state.scene.forEach((v) => parts.push(v));
+    // 服务方式：上门 / 到店
+    state.service.forEach((v) => parts.push(v));
+    // 地区
+    state.district.forEach((v) => parts.push(v));
+    // 其他：今日可约
+    if (state.other.has('today')) parts.push('今日可约');
+    return [...new Set(parts)].join(' ');
+  }
+
+  function goSearch() {
+    const p = new URLSearchParams();
+    const q = searchQuery();
+    // 有关键词才带 q；否则用「全部」表示不限，避免搜索页回落到默认词
+    p.set('q', q || '全部');
+    if (state.district.size) p.set('district', [...state.district].join(','));
+    if (state.scene.size) p.set('scene', [...state.scene].join(','));
+    if (state.service.size) p.set('service', [...state.service].join(','));
+    if (state.other.has('today')) p.set('today', '1');
+    if (state.price.length) p.set('price', state.price[0].join('-'));
+    if (state.maxPrice < 1600) p.set('max', state.maxPrice);
+    if (state.sort !== 'relevance') p.set('sort', state.sort);
+    location.href = 'search.html?' + p.toString();
+  }
+
+  ['goSearch', 'goSearchMini'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      goSearch();
+    });
   });
 })();
 </script>

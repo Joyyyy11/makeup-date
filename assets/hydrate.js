@@ -345,7 +345,42 @@ function initSearchPage(host) {
   // 关键词：URL 有 q 参数时以 URL 为准（允许为空 = 显示全部）
   const qParam = params.get('q');
   let query = qParam !== null ? qParam : (input ? input.value : '') || '';
+  // 「全部」= 不限关键词
+  if (query.trim() === '全部') query = '';
   let sort = params.get('sort') || 'relevance';
+
+  // 附加筛选：地区 / 预算 / 服务方式 / 今日可约
+  const fDistrict = (params.get('district') || '').split(',').filter(Boolean);
+  const fScene = (params.get('scene') || '').split(',').filter(Boolean);
+  const fService = (params.get('service') || '').split(',').filter(Boolean);
+  const fToday = params.get('today') === '1';
+  const fMax = +params.get('max') || 0;
+  const fPrice = params.get('price') || '';
+  let fPriceRange = null;
+  if (fPrice.includes('-')) {
+    const [lo, hi] = fPrice.split('-').map(Number);
+    fPriceRange = [lo, hi];
+  }
+
+  function matchesFilters(a) {
+    if (fDistrict.length) {
+      const ds = (a.area || '').split('/').map((s) => s.trim());
+      if (!fDistrict.some((d) => ds.includes(d))) return false;
+    }
+    if (fScene.length) {
+      const real = realScenesOf(a);
+      if (!fScene.some((s) => real.includes(s))) return false;
+    }
+    if (fService.length) {
+      const home = /上门/.test(a.home || '');
+      const shop = /到店/.test((a.tags || []).join('') + (a.home || ''));
+      if (!fService.some((s) => (s === '上门' ? home : shop))) return false;
+    }
+    if (fToday && !/今日/.test(a.slots || '')) return false;
+    if (fPriceRange && (a.price < fPriceRange[0] || a.price > fPriceRange[1])) return false;
+    if (fMax && a.price > fMax) return false;
+    return true;
+  }
 
   if (input) input.value = query;
 
@@ -392,7 +427,9 @@ function initSearchPage(host) {
 
   function render() {
     // 1) 过滤：严格判定是否真的相关
-    const list = query.trim() ? ARTISTS.filter((a) => isRelevant(a, query)) : ARTISTS.slice();
+    let list = query.trim() ? ARTISTS.filter((a) => isRelevant(a, query)) : ARTISTS.slice();
+    // 1.5) 附加筛选条件（地区 / 场景 / 服务方式 / 预算）
+    list = list.filter(matchesFilters);
 
     // 2) 排序
     const sorter = SORTS[sort] || SORTS.relevance;
@@ -491,6 +528,13 @@ function initSearchPage(host) {
     const p = new URLSearchParams();
     if (query.trim()) p.set('q', query.trim());
     if (sort !== 'relevance') p.set('sort', sort);
+    // 保留来自上一页的附加筛选，别被清掉
+    if (fDistrict.length) p.set('district', fDistrict.join(','));
+    if (fScene.length) p.set('scene', fScene.join(','));
+    if (fService.length) p.set('service', fService.join(','));
+    if (fToday) p.set('today', '1');
+    if (fPrice) p.set('price', fPrice);
+    if (fMax) p.set('max', fMax);
     const qs = p.toString();
     history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
 

@@ -26,7 +26,7 @@
     <form class="search-deck" onsubmit="event.preventDefault();doSearch(this);">
       <label class="search-field" style="flex:2">
         <span class="muted" style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">关键词</span>
-        <input class="input" name="q" value="新娘 跟妆" placeholder="风格 / 化妆师 / 商圈"
+        <input class="input" name="q" value="" placeholder="风格 / 化妆师 / 商圈"
                style="border:0;padding:0;font-size:14px;font-weight:500;background:transparent;outline:none">
       </label>
       <label class="search-field">
@@ -51,7 +51,7 @@
     </form>
     <div class="search-mobile-mini mt12" onclick="document.querySelector('.search-deck').scrollIntoView({behavior:'smooth'})">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5" stroke-linecap="round"/></svg>
-      <span><strong>新娘 跟妆</strong><br><em>全部地区 · 11/14 · 不限预算</em></span>
+      <span><strong>全部化妆师</strong><br><em>全部地区 · 11/14 · 不限预算</em></span>
     </div>
 
     <div class="sug-chips" id="hotKeywords">
@@ -64,7 +64,7 @@
   <div class="wrap">
     <div class="result-head">
       <div>
-        <h1>「<span class="kw">新娘 跟妆</span>」的搜索结果</h1>
+        <h1>全部化妆师</h1>
         <p class="small muted mt4">共 <b class="bold" data-result-count>0</b> 位化妆师符合条件 · 已按匹配度排序</p>
       </div>
       <div class="flex gap8 center" style="gap:8px">
@@ -127,13 +127,80 @@
 <script src="assets/hydrate.js?v=20261123D"></script>
 <script src="assets/app.js?v=20261123D"></script>
 <script>
+  /* ---------- 搜索页初始化：把 URL 参数回填到表单 ---------- */
+  (function restoreFromURL() {
+    const p = new URLSearchParams(location.search);
+    const form = document.querySelector('.search-deck');
+    if (!form) return;
+
+    const q = p.get('q');
+    if (q !== null) form.q.value = q === '全部' ? '' : q;
+
+    // 地区：单选，取第一个；下拉里没有该选项时动态补一个
+    const district = (p.get('district') || '').split(',').filter(Boolean)[0];
+    if (district) {
+      const sel = form.querySelector('select');
+      let opt = [...sel.options].find((o) => o.textContent === district);
+      if (!opt) {
+        opt = new Option(district, district);
+        sel.add(opt);
+      }
+      sel.value = opt.value;
+    }
+
+    // 日期
+    const date = p.get('date');
+    if (date) {
+      const di = form.querySelector('input[type=date]');
+      if (di) di.value = date;
+    }
+
+    // 预算
+    const max = +p.get('max') || 0;
+    const priceRange = p.get('price');
+    if (max || priceRange) {
+      const sel = form.querySelectorAll('select')[1];
+      if (sel) {
+        let label = '不限';
+        if (priceRange) label = '区间价';
+        else if (max <= 500) label = 'HK$500 以下';
+        else if (max <= 1000) label = 'HK$500 – 1,000';
+        else if (max <= 2000) label = 'HK$1,000 – 2,000';
+        else label = 'HK$2,000 以上';
+        [...sel.options].forEach((o) => { if (o.textContent === label) sel.value = o.value; });
+      }
+    }
+  })();
+
+  /* ---------- 提交搜索：写入 URL 后交给 hydrate.js 渲染 ---------- */
   function doSearch(form) {
-    const q = form.q.value.trim() || '全部';
-    document.querySelector('.result-head h1').innerHTML = `「<span class="kw">${q}</span>」的搜索结果`;
-    const mini = document.querySelector('.search-mobile-mini strong');
-    if (mini) mini.textContent = q;
-    window.scrollTo({ top: 260, behavior: 'smooth' });
+    const p = new URLSearchParams();
+    const q = form.q.value.trim();
+    p.set('q', q || '全部');
+
+    const district = form.querySelector('select')?.value;
+    if (district && district !== '全部地区') p.set('district', district);
+
+    const date = form.querySelector('input[type=date]')?.value;
+    if (date) p.set('date', date);
+
+    const budget = form.querySelectorAll('select')[1]?.value;
+    const budgetMax = { 'HK$500 以下': 500, 'HK$500 – 1,000': 1000, 'HK$1,000 – 2,000': 2000, 'HK$2,000 以上': 99999 }[budget];
+    if (budgetMax) p.set('max', budgetMax);
+
+    const sort = new URLSearchParams(location.search).get('sort');
+    if (sort) p.set('sort', sort);
+
+    location.href = 'search.html?' + p.toString();
   }
+
+  /* ---------- 移动端摘要文本同步 ---------- */
+  (function syncMini() {
+    const p = new URLSearchParams(location.search);
+    const q = (p.get('q') || '').trim();
+    const mini = document.querySelector('.search-mobile-mini strong');
+    if (mini) mini.textContent = q && q !== '全部' ? q : '全部化妆师';
+  })();
 </script>
 </body>
 </html>
