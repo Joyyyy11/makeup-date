@@ -27,6 +27,7 @@ function renderNav(active = '') {
         ).join('')}
       </nav>
       <div class="nav-right">
+        <div class="lang-switch" id="langSwitch" role="group" aria-label="语言 / Language"></div>
         <a href="booking-guide.html" class="nav-icon hide-mobile" title="预约须知" aria-label="预约须知">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 11.5h1V16h1" stroke-linecap="round"/></svg>
         </a>
@@ -44,6 +45,7 @@ function renderNav(active = '') {
     ${NAV_LINKS.map((l) => `<a href="${l.href}">${l.label}<span>›</span></a>`).join('')}
     <a href="booking.html">立即预约<span>›</span></a>
     <a href="booking-guide.html">预约须知<span>›</span></a>
+    <div class="lang-switch lang-switch-drawer" id="langSwitchMobile" role="group" aria-label="语言 / Language"></div>
   </div>`;
 }
 
@@ -245,4 +247,8 @@ function mountChrome(active) {
       if (!drawer.contains(e.target) && !burger.contains(e.target)) drawer.classList.remove('open');
     });
   }
+
+  // nav / footer / sticky 都是运行时注入的，必须通知 i18n 重新走一遍
+  if (window.MDI18N) MDI18N.apply();
+  document.dispatchEvent(new CustomEvent('md:rerender'));
 }

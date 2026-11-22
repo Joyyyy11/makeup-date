@@ -13,6 +13,9 @@ if (document.readyState === 'loading') {
 function boot() {
   mountChrome();
   hydrate();
+  // 所有动态内容（导航 / 页脚 / 卡片流 / 场景区）渲染完成后，
+  // 通知 i18n 重新走一遍；i18n.js 若尚未加载则忽略，init() 会自己 apply
+  document.dispatchEvent(new CustomEvent('md:rerender'));
 }
 
 function hydrate() {
